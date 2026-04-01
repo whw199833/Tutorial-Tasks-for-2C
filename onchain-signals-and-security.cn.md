@@ -56,6 +56,48 @@
 
 6. **监控/告警**：上述均为**拉取式 REST**；定时推送需用户侧 cron/云函数轮询同一接口，Skill 不包含 WebSocket 部署。
 
+### C. 定时任务与监控的默认实现（Python / Shell）
+
+本 Task 中的「定时监控、条件告警、定时推送」**默认**在用户自有环境（本机、VPS、云函数）用脚本实现；Agent/Skill 只负责**单次**拉数，**不**托管常驻服务。
+
+| 方式 | 适用 | 说明 |
+|------|------|------|
+| **Shell + cron** | 固定周期拉取（如每 5 分钟） | `crontab` 调用 `.sh`，脚本内用 `curl` 请求 §B 中的 `POST`/`GET`，配合 `jq` 解析后决定是否 `echo`、写日志或调用用户自配 webhook。 |
+| **Python** | 轮询、阈值判断、多接口编排 | 推荐 `requests` 或 `httpx` 循环请求同一 REST；或用 **APScheduler** / 系统 **cron** 单次执行 `python monitor.py`。告警出口（钉钉/TG/邮件/文件）由脚本自行对接，不在 Skill 范围内。 |
+
+**约定**：密钥、频率与合规（请求间隔、勿刷屏）由部署方配置；脚本内**不要**硬编码 API Key，使用环境变量或密钥管理。
+
+**Shell 示例骨架**（周期由 crontab 控制，脚本内只负责一次拉取）：
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+# 示例：拉聪明钱信号后按条件告警（URL/Body 以 query-token-info / trading-signal 的 SKILL 为准）
+# export WEB3_COOKIE_OR_HEADERS=...  # 若接口需要，从环境注入
+curl -sS -X POST "${SIGNAL_URL}" \
+  -H "Content-Type: application/json" \
+  -d "{\"chainId\":\"56\",\"page\":1,\"pageSize\":20}" | jq .
+```
+
+**Python 示例骨架**（长轮询可用 `while True` + `sleep`，生产环境更推荐 cron 调单次脚本）：
+
+```python
+import os, time, requests
+
+def poll_once():
+    url = os.environ["SMART_MONEY_URL"]  # 与 §B trading-signal 一致
+    r = requests.post(url, json={"chainId": "56", "page": 1, "pageSize": 20}, timeout=30)
+    r.raise_for_status()
+    data = r.json()
+    # TODO: 解析 direction / alertPrice vs currentPrice，命中规则则 notify
+    return data
+
+if __name__ == "__main__":
+    while True:
+        poll_once()
+        time.sleep(300)  # 5 分钟；或用 cron 去掉循环，每次只执行一次
+```
+
 ---
 
 ## 使用指南

@@ -1,4 +1,4 @@
-# skills-for-2C
+# Tutorial-Tasks-for-2C
 
 For **Binance AI Pro (Clawbot)**–style scenarios: map live user intents to **Tasks**, and for each Task document **recommended Skills**, a **structured execution order (DAG)**, and **REST / API quick reference**, so agents can pick Skills step-by-step with fewer flat tool calls.
 

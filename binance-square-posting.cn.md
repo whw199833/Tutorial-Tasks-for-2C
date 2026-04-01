@@ -44,6 +44,52 @@
 
 4. **引用行情**：先 `market-data-and-analysis.cn.md`（如 `unified/rank/list` 或 `token/search`），再写作并调用上述 `content/add`。
 
+### C. 定时发帖的默认实现（Python / Shell）
+
+无官方「预约发帖」接口时，**默认**用用户环境的 **Shell + cron** 或 **Python** 在指定时刻构造正文并调用 `content/add`（与 §A「定时 = 外部调度」一致）。
+
+| 方式 | 说明 |
+|------|------|
+| **Shell** | `crontab` 在整点/每天某时刻执行 `post_square.sh`：从文件或 `heredoc` 读入 `bodyTextOnly`，用 `curl` 带 `X-Square-OpenAPI-Key` 发 JSON。 |
+| **Python** | 同一时刻由 `schedule`/`APScheduler` 或 **cron 调 `python post.py`**：脚本内 `requests.post` 到发帖 URL，正文可来自模板文件或先生成再提交。 |
+
+密钥使用环境变量（如 `SQUARE_OPENAPI_KEY`），勿写入仓库。
+
+**Shell 示例骨架**：
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+KEY="${X_SQUARE_OPENAPI_KEY:?set key in env}"
+BODY_FILE="${1:?path to body text file}"
+curl -sS -X POST "https://www.binance.com/bapi/composite/v1/public/pgc/openApi/content/add" \
+  -H "X-Square-OpenAPI-Key: ${KEY}" \
+  -H "Content-Type: application/json" \
+  -H "clienttype: binanceSkill" \
+  -d "$(jq -n --rawfile t "$BODY_FILE" '{bodyTextOnly: $t}')"
+```
+
+**Python 示例骨架**：
+
+```python
+import os, pathlib, requests
+
+def post_square(body: str) -> dict:
+    url = "https://www.binance.com/bapi/composite/v1/public/pgc/openApi/content/add"
+    headers = {
+        "X-Square-OpenAPI-Key": os.environ["X_SQUARE_OPENAPI_KEY"],
+        "Content-Type": "application/json",
+        "clienttype": "binanceSkill",
+    }
+    r = requests.post(url, json={"bodyTextOnly": body}, headers=headers, timeout=60)
+    r.raise_for_status()
+    return r.json()
+
+if __name__ == "__main__":
+    text = pathlib.Path(os.environ.get("BODY_FILE", "post.txt")).read_text(encoding="utf-8")
+    print(post_square(text))
+```
+
 ---
 
 ## 使用指南

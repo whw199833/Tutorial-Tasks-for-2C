@@ -56,6 +56,46 @@
 
 6. **Monitoring**: all **pull REST**; scheduled push = user cron polling same endpoints; no WebSocket deployment in Skill.
 
+### C. Scheduling & monitoring defaults (Python / Shell)
+
+For **scheduled monitoring, conditional alerts, and scheduled pushes**, the **default** is to run scripts on **your** machine, VPS, or cloud worker; the Agent/Skill covers **one-shot** data pulls only and does **not** host long-running daemons.
+
+| Approach | When | Notes |
+|----------|------|--------|
+| **Shell + cron** | Fixed-interval pulls (e.g. every 5 min) | `crontab` runs a `.sh` that uses `curl` against §B `POST`/`GET`, then `jq` (optional) and logging or a user-provided webhook. |
+| **Python** | Polling, thresholds, multi-step flows | Prefer `requests` or `httpx` in a loop, or **APScheduler** / OS **cron** invoking `python monitor.py` once per tick. Alert channels (chat, email, file) are **outside** Skills. |
+
+**Conventions**: keys, rate limits, and compliance (intervals, no abuse) are the deployer’s responsibility; **never** hard-code secrets—use env vars or a secret store.
+
+**Shell sketch** (cadence = crontab; script runs one pull per invocation):
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+curl -sS -X POST "${SIGNAL_URL}" \
+  -H "Content-Type: application/json" \
+  -d '{"chainId":"56","page":1,"pageSize":20}' | jq .
+```
+
+**Python sketch** (long poll = `while True` + `sleep`; production often prefers cron + single-run script):
+
+```python
+import os, time, requests
+
+def poll_once():
+    url = os.environ["SMART_MONEY_URL"]  # same host/path as §B trading-signal
+    r = requests.post(url, json={"chainId": "56", "page": 1, "pageSize": 20}, timeout=30)
+    r.raise_for_status()
+    data = r.json()
+    # TODO: parse direction / alertPrice vs currentPrice; notify on rules
+    return data
+
+if __name__ == "__main__":
+    while True:
+        poll_once()
+        time.sleep(300)
+```
+
 ---
 
 ## Usage

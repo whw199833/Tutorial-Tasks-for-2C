@@ -1,4 +1,4 @@
-# skills-for-2C
+# Tutorial-Tasks-for-2C
 
 面向 **Binance AI Pro（Clawbot）** 类场景：将线上用户意图抽象为若干 **Task**，并为每类 Task 说明 **适用 Skills**、**结构化执行顺序（DAG）** 与 **REST/接口速查**，便于 Agent 按步骤选 Skill、少平铺调用。
 
@@ -9,7 +9,7 @@
 | 内容 | 说明 |
 |------|------|
 | **Task 文档**（`*.cn.md` / `*.en.md`，英文文件名） | 每类意图一篇：`Description`、推荐 Skills 组合、**Plan（§A DAG + §B 接口级速查）**、`使用指南`。 |
-| **[Task_upgrade_advice.md](./Task_upgrade_advice.cn.md)** | 跨 Task 的 **默认执行 DAG** 总览（与各文件 §A 对应）；接口细节仍以各 Task §B 与 `binance-skills-hub` 为准。 |
+| **[Task_upgrade_advice.cn.md](./Task_upgrade_advice.cn.md)** | 跨 Task 的 **默认执行 DAG** 总览（与各文件 §A 对应）；接口细节仍以各 Task §B 与 `binance-skills-hub` 为准。 |
 | **意图分类参考** | 线上意图大类与 query 示例见：`intent_category.json`。 |
 
 ---

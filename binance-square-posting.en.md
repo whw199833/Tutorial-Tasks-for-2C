@@ -44,6 +44,52 @@
 
 4. **Quotes**: first `market-data-and-analysis.en.md` (e.g. `unified/rank/list` or `token/search`), then write and `content/add`.
 
+### C. Scheduled posting defaults (Python / Shell)
+
+There is no official “schedule post” API. **By default**, use **Shell + cron** or **Python** on the user’s side to build `bodyTextOnly` at a chosen time and call `content/add` (same as §A: schedule = external orchestration).
+
+| Approach | Notes |
+|----------|--------|
+| **Shell** | `crontab` runs `post_square.sh` at a fixed time: read body from a file or heredoc, `curl` with `X-Square-OpenAPI-Key` and JSON body. |
+| **Python** | Same moment via `schedule` / **APScheduler** or **cron** calling `python post.py`: `requests.post` to the content endpoint; body from a template file or generated first. |
+
+Load keys from the environment (e.g. `X_SQUARE_OPENAPI_KEY`); do not commit secrets.
+
+**Shell sketch**:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+KEY="${X_SQUARE_OPENAPI_KEY:?set key in env}"
+BODY_FILE="${1:?path to body text file}"
+curl -sS -X POST "https://www.binance.com/bapi/composite/v1/public/pgc/openApi/content/add" \
+  -H "X-Square-OpenAPI-Key: ${KEY}" \
+  -H "Content-Type: application/json" \
+  -H "clienttype: binanceSkill" \
+  -d "$(jq -n --rawfile t "$BODY_FILE" '{bodyTextOnly: $t}')"
+```
+
+**Python sketch**:
+
+```python
+import os, pathlib, requests
+
+def post_square(body: str) -> dict:
+    url = "https://www.binance.com/bapi/composite/v1/public/pgc/openApi/content/add"
+    headers = {
+        "X-Square-OpenAPI-Key": os.environ["X_SQUARE_OPENAPI_KEY"],
+        "Content-Type": "application/json",
+        "clienttype": "binanceSkill",
+    }
+    r = requests.post(url, json={"bodyTextOnly": body}, headers=headers, timeout=60)
+    r.raise_for_status()
+    return r.json()
+
+if __name__ == "__main__":
+    text = pathlib.Path(os.environ.get("BODY_FILE", "post.txt")).read_text(encoding="utf-8")
+    print(post_square(text))
+```
+
 ---
 
 ## Usage

@@ -75,6 +75,10 @@ flowchart LR
    - `POST .../bapi/defi/v1/public/wallet-direct/buw/wallet/market/token/pulse/rank/list/ai`：`chainId`、`rankType`（`10`/`20`/`30` 阶段）。
    - Topic：`GET .../bapi/defi/v2/public/wallet-direct/buw/wallet/market/token/social-rush/rank/list/ai`：`chainId`、`rankType`（`10`/`20`）、`sort`。
 
+### C. 定时拉取行情（Python / Shell）
+
+需要**定时**刷新榜单、K 线或价格快照（非下单）时，默认在用户环境用 **Shell + cron** 或 **Python** 周期性请求 §B 中的 `GET`/`POST`（`curl` / `requests`），与 [onchain-signals-and-security.cn.md](./onchain-signals-and-security.cn.md) **§B.C** 同一套「脚本 + 调度」约定；阈值/告警由脚本自行实现。
+
 ---
 
 ## 使用指南

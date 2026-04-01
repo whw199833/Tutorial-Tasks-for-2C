@@ -75,6 +75,10 @@ flowchart LR
    - `POST .../bapi/defi/v1/public/wallet-direct/buw/wallet/market/token/pulse/rank/list/ai`: `chainId`, `rankType` (`10`/`20`/`30` stage).
    - Topic: `GET .../bapi/defi/v2/public/wallet-direct/buw/wallet/market/token/social-rush/rank/list/ai`: `chainId`, `rankType` (`10`/`20`), `sort`.
 
+### C. Scheduled market pulls (Python / Shell)
+
+To **periodically** refresh ranks, K-lines, or price snapshots (not order placement), **by default** use **Shell + cron** or **Python** to call the §B `GET`/`POST` endpoints (`curl` / `requests`) on your infrastructure. Follow the same **script + scheduler** conventions as **§B.C** in [onchain-signals-and-security.en.md](./onchain-signals-and-security.en.md); thresholds and alerts are implemented in your scripts.
+
 ---
 
 ## Usage
