@@ -21,7 +21,7 @@
 
 ## Plan（执行计划）
 
-> 与 `Task_upgrade_advice.md` §8 对齐：部署无一键 REST；支付侧 **pairs → payment → quote → address/network → pre-order → poll**；部署后 **search + audit + 地址持仓** 做事后验证。
+> 与 `Task_upgrade_advice.cn.md` §8 对齐：部署无一键 REST；支付侧 **pairs → payment → quote → address/network → pre-order → poll**；部署后 **search + audit + 地址持仓** 做事后验证。
 
 ### A. 结构化流水线（DAG）
 
@@ -65,4 +65,4 @@
 ### 接口与凭证
 
 - **Onchain Pay**：配置 `BASE_URL`、`CLIENT_ID`、`API_KEY`、RSA PEM；`pre-order` 通常要求 `address` + `network`（或 `.local.md` 默认）。
-- **与 `onchain-signals-and-security.md`**：新代币上线后持续用 `query-token-audit` 与 `query-token-info`。
+- **与 `onchain-signals-and-security.cn.md`**：新代币上线后持续用 `query-token-audit` 与 `query-token-info`。

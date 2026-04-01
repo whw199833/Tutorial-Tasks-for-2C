@@ -21,7 +21,7 @@
 
 ## Plan（执行计划）
 
-> 与 `Task_upgrade_advice.md` §12 对齐：**先定产品线**（Simple Earn / VIP Loan / 现货杠杆）→ 列表 → 持仓 → 预览 → 申购/借币 → 用 `getUserAsset` 核对资金。
+> 与 `Task_upgrade_advice.cn.md` §12 对齐：**先定产品线**（Simple Earn / VIP Loan / 现货杠杆）→ 列表 → 持仓 → 预览 → 申购/借币 → 用 `getUserAsset` 核对资金。
 
 ### A. 结构化流水线（DAG）
 
@@ -30,7 +30,7 @@
 | **产品线** | 零售赚币 → `simple-earn`；VIP 质押借贷 → `vip-loan`；现货杠杆借还 → `margin-trading`（与 VIP 不同）。 |
 | **Simple Earn** | `simple-earn/account` → `flexible/list` 或 `locked/list` → `subscriptionPreview` → 确认 → `subscribe`；赎回前 `position` → `redeem`。 |
 | **VIP Loan** | `loanable/data` + `collateral/data` + `interestRate` → 确认 → `borrow`；存续 `ongoing/orders`，还款 `repay` / 续借 `renew`。 |
-| **资金核对** | 操作前后 `getUserAsset`（及 `get-funding-asset`）与 `account-and-asset-management.md` 对齐。 |
+| **资金核对** | 操作前后 `getUserAsset`（及 `get-funding-asset`）与 `account-and-asset-management.cn.md` 对齐。 |
 
 ### B. 接口级速查
 
@@ -70,4 +70,4 @@
 ### 产品与账户
 
 - **产品分流**：零售赚币走 `simple-earn`；机构式 VIP 质押借贷走 `vip-loan`；现货杠杆是 `margin-trading` 的另一套 `/sapi/v1/margin/*`。
-- **与 `account-and-asset-management.md`**：查「活期/定期仓位」以 `simple-earn/position` 为主，通用余额以 `getUserAsset` 为辅。
+- **与 `account-and-asset-management.cn.md`**：查「活期/定期仓位」以 `simple-earn/position` 为主，通用余额以 `getUserAsset` 为辅。

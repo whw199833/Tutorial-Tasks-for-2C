@@ -22,7 +22,7 @@
 
 ## Plan（执行计划）
 
-> 与 `Task_upgrade_advice.md` §4 对齐：**先广后窄** — 榜单/主题得候选 Top N → `meta`+`dynamic` 收窄 → 1～3 个标的 **多周期 K 线** → 可选 inflow / smart-money；RWA 单独工作流；宏观用 Agent 补充。
+> 与 `Task_upgrade_advice.cn.md` §4 对齐：**先广后窄** — 榜单/主题得候选 Top N → `meta`+`dynamic` 收窄 → 1～3 个标的 **多周期 K 线** → 可选 inflow / smart-money；RWA 单独工作流；宏观用 Agent 补充。
 
 ### A. 结构化流水线（DAG）
 
@@ -88,5 +88,5 @@ flowchart LR
 
 - **Headers**：Web3 技能普遍要求 `Accept-Encoding: identity`、`User-Agent: binance-web3/x.x (Skill)`（版本以 SKILL 为准）。
 - **榜单 → 单币**：先用 `unified/rank/list` 拿到 `contractAddress`，再调 `meta/info` 与 `dynamic/info`。
-- **BTC/主流现货价**：也可通过 `spot` 的公开 `GET /api/v3/ticker/24hr?symbol=BTCUSDT`（`trading-execution.md` / spot Skill）与 Web3 数据交叉核对。
+- **BTC/主流现货价**：也可通过 `spot` 的公开 `GET /api/v3/ticker/24hr?symbol=BTCUSDT`（`trading-execution.cn.md` / spot Skill）与 Web3 数据交叉核对。
 - **RWA**：普通山寨币不要用 RWA 列表 API；通用代币用 `query-token-info`。

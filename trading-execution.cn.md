@@ -28,7 +28,7 @@
 
 ## Plan（执行计划）
 
-> 与 `Task_upgrade_advice.md` §3 对齐：**唯一市场锁定** → 只读查单/持仓 → 写单前精度与规则 → 算法单追踪；行情来自 `market-data-and-analysis.md`，不用订单接口代替。
+> 与 `Task_upgrade_advice.cn.md` §3 对齐：**唯一市场锁定** → 只读查单/持仓 → 写单前精度与规则 → 算法单追踪；行情来自 `market-data-and-analysis.cn.md`，不用订单接口代替。
 
 ### A. 结构化流水线（DAG）
 
@@ -38,7 +38,7 @@
 | **只读** | `openOrders` → `order`（按 id）→ 合约再 `positionRisk`；确认后再撤/改。 |
 | **写单** | 现货：`exchangeInfo`/`myFilters` 再 `order`；合约：必要时先 `leverage`/`marginType`；闪兑：`exchangeInfo` → `getQuote` → 确认 → `acceptQuote`。 |
 | **算法单** | 下单后 `algo/*/openOrders` + `subOrders` 跟子单进度。 |
-| **行情** | 现价/榜单从 `market-data-and-analysis.md` 拉取。 |
+| **行情** | 现价/榜单从 `market-data-and-analysis.cn.md` 拉取。 |
 
 ### B. 接口级速查
 
@@ -95,4 +95,4 @@
 - **`newClientOrderId`（spot）**：Skill 要求必须以 `agent-` 为前缀（若未传则自动生成带前缀）。
 - **USDS vs COIN**：`fapi` 与 `dapi` 不可混用；期权用 `eapi`。
 - **convert vs spot**：一键询价成交走 `convert/getQuote` + `acceptQuote`；挂单深度用 `spot`。
-- **与 `market-data-and-analysis.md`**：链上/行情用 Web3 BAPI（见该文档）；本 Task 为交易所订单 API。
+- **与 `market-data-and-analysis.cn.md`**：链上/行情用 Web3 BAPI（见该文档）；本 Task 为交易所订单 API。

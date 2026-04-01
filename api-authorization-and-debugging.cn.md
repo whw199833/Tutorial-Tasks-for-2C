@@ -24,7 +24,7 @@
 
 ## Plan（执行计划）
 
-> 与 `Task_upgrade_advice.md` §2 对齐：先归类错误 → 权限真值 → 分市场读通路 → 子账户/IP → 签名环境 → 供应链工具。
+> 与 `Task_upgrade_advice.cn.md` §2 对齐：先归类错误 → 权限真值 → 分市场读通路 → 子账户/IP → 签名环境 → 供应链工具。
 
 ### A. 结构化流水线（DAG）
 
@@ -75,4 +75,4 @@
 - **错误码语义**：`-2015` 等需对照 Binance 官方错误码；`-1022` 签名失败时核对 HMAC、参数排序、`recvWindow`、本机时间同步。
 - **P2P 类 SAPI 签名**：若涉及 `p2p` Skill 的 `/sapi/v1/c2c/...`，**不要对参数排序**（见 `p2p` SKILL 中 SAPI 说明），与标准 Spot/Futures 不同。
 - **只读优先**：排查阶段避免 `POST` 下单；确需测试单可用 `spot` 的 `POST /api/v3/order/test`、`/fapi/v1/order/test`（按市场选择对应 Skill）。
-- **与 `account-and-asset-management.md` / `trading-execution.md`**：权限正常后，资产查询走前者接口；交易走后者。
+- **与 `account-and-asset-management.cn.md` / `trading-execution.cn.md`**：权限正常后，资产查询走前者接口；交易走后者。

@@ -19,14 +19,14 @@
 
 ## Plan（执行计划）
 
-> 与 `Task_upgrade_advice.md` §10 对齐：**撰稿定稿 → 敏感词/长度自检 → 如需则先拉行情事实 → 单点 `content/add`**；定时发帖 = 外部调度重复同一流程。
+> 与 `Task_upgrade_advice.cn.md` §10 对齐：**撰稿定稿 → 敏感词/长度自检 → 如需则先拉行情事实 → 单点 `content/add`**；定时发帖 = 外部调度重复同一流程。
 
 ### A. 结构化流水线（DAG）
 
 | 步骤 | 动作 |
 |------|------|
 | **撰稿** | 正文、免责声明（若涉行情）在 Agent 侧完成；对照 `square-post` 错误码（敏感词、长度）。 |
-| **数据** | 引用价/榜：先 `market-data-and-analysis.md` 拉取可引用事实，**写入** `bodyTextOnly`。 |
+| **数据** | 引用价/榜：先 `market-data-and-analysis.cn.md` 拉取可引用事实，**写入** `bodyTextOnly`。 |
 | **发布** | `content/add` 一次；成功用 `data.id` 生成 URL。 |
 | **定时** | 无官方定时 API → cron/外部调度在设定时刻再调 `content/add`。 |
 
@@ -42,7 +42,7 @@
 
 3. **定时发布 / 抓取新闻**：无 Binance 公开 REST 在本 Skill 中；用外部调度或手动。
 
-4. **引用行情**：先 `market-data-and-analysis.md`（如 `unified/rank/list` 或 `token/search`），再写作并调用上述 `content/add`。
+4. **引用行情**：先 `market-data-and-analysis.cn.md`（如 `unified/rank/list` 或 `token/search`），再写作并调用上述 `content/add`。
 
 ---
 
@@ -51,7 +51,7 @@
 ### 结构化要点
 
 - **先内容后接口**：避免未审稿就调用 `content/add` 触发敏感词/长度错误。
-- **行情可引用不可编造**：数字必须来自 `market-data-and-analysis.md` 或公开行情接口。
+- **行情可引用不可编造**：数字必须来自 `market-data-and-analysis.cn.md` 或公开行情接口。
 
 ### 密钥与接口
 

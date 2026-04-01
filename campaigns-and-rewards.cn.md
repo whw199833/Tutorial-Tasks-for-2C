@@ -20,7 +20,7 @@
 
 ## Plan（执行计划）
 
-> 与 `Task_upgrade_advice.md` §9 对齐：**规则以官网为准** → 可选「活动提到的币」行情佐证 → 可选用户自查交易量；讨论类无 API。
+> 与 `Task_upgrade_advice.cn.md` §9 对齐：**规则以官网为准** → 可选「活动提到的币」行情佐证 → 可选用户自查交易量；讨论类无 API。
 
 ### A. 结构化流水线（DAG）
 
@@ -40,7 +40,7 @@
    - Web3：`POST .../unified/rank/list/ai`（`rankType=20` Alpha 榜）或 `query-token-info` 的 `search/ai`。
 
 3. **若活动涉及交易任务**
-   - 持仓/余额：`assets` 的 `POST /sapi/v3/asset/getUserAsset`；订单：见 `trading-execution.md` 中 `/api/v3/order`、`/fapi/v1/openOrders` 等。
+   - 持仓/余额：`assets` 的 `POST /sapi/v3/asset/getUserAsset`；订单：见 `trading-execution.cn.md` 中 `/api/v3/order`、`/fapi/v1/openOrders` 等。
 
 4. **讨论类**：无需 REST。
 

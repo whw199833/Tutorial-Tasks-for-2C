@@ -6,7 +6,7 @@
 
 **典型线上意图**（摘自 intent 分类）：查询币安账户资产与交易状态；主账户余额确认；授权代操作及资金状况核查；账户余额与资产分布；资金去向追踪；开户与交易操作咨询；账号功能关闭与退款相关咨询（信息侧）。
 
-**Skills 边界**：资产与划转以 `assets` 为主；子账户以 `sub-account` 为主；法币流水以 `fiat` 为辅；若用户同时问合约/统一账户保证金，可衔接 `trading-execution.md` 中的衍生品 Skills。
+**Skills 边界**：资产与划转以 `assets` 为主；子账户以 `sub-account` 为主；法币流水以 `fiat` 为辅；若用户同时问合约/统一账户保证金，可衔接 `trading-execution.cn.md` 中的衍生品 Skills。
 
 ---
 
@@ -23,13 +23,13 @@
 
 ## Plan（执行计划）
 
-> 与 `Task_upgrade_advice.md` §1 对齐：先定界 → 快照 → 流水对齐 → 子账户/法币分支 → 收口输出。
+> 与 `Task_upgrade_advice.cn.md` §1 对齐：先定界 → 快照 → 流水对齐 → 子账户/法币分支 → 收口输出。
 
 ### A. 结构化流水线（DAG）
 
 | 步骤 | 动作 |
 |------|------|
-| **定界** | 区分：仅主账户现货 / 含 Funding / 含子账户 / 含法币订单 / 含合约或 PM（后者转 `trading-execution.md`）。 |
+| **定界** | 区分：仅主账户现货 / 含 Funding / 含子账户 / 含法币订单 / 含合约或 PM（后者转 `trading-execution.cn.md`）。 |
 | **余额快照** | `getUserAsset` 或 `wallet/balance` → 答「某币剩多少」可结束；问「钱从哪来/到哪去」进入流水。 |
 | **流水对齐** | 在时间窗内：`deposit/hisrec`、`withdraw/history`、`asset/transfer`（GET）与快照**交叉核对**（大额变动应对应记录）。 |
 | **子账户** | 仅当明确子账户 email 或主子划转：`sub-account/list` → `assets` → 必要时 `universalTransfer` 历史。 |
@@ -79,4 +79,4 @@
 - **先 REST 资产再子账户**：仅主账户余额用 `getUserAsset` 即可；涉及子账户邮箱或划转时再调用 `sub-account` 的 `list` / `assets` / `universalTransfer`。
 - **法币公开 API 与 SAPI 分工**：询价/渠道用 `bapi/fiat/.../agent/*`；**用户账户级**法币订单用 `GET /sapi/v1/fiat/orders`、`/sapi/v1/fiat/payments`。
 - **主网资金操作**：Skill 要求主网交易前用户输入 `CONFIRM`；代操作类须合规提示。
-- **与 `trading-execution.md`**：下单后查单不在本 Task；现货订单走 `spot` 的 `/api/v3/order`、`/api/v3/openOrders`。
+- **与 `trading-execution.cn.md`**：下单后查单不在本 Task；现货订单走 `spot` 的 `/api/v3/order`、`/api/v3/openOrders`。

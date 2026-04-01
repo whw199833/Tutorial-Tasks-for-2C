@@ -21,7 +21,7 @@
 
 ## Plan（执行计划）
 
-> 与 `Task_upgrade_advice.md` §11 对齐：**概念先行** → 用户要实例时再走 **search → dynamic → K 线** 演示链；榜单教学单次 `unified/rank`；固化教程用 `skill-creator`。
+> 与 `Task_upgrade_advice.cn.md` §11 对齐：**概念先行** → 用户要实例时再走 **search → dynamic → K 线** 演示链；榜单教学单次 `unified/rank`；固化教程用 `skill-creator`。
 
 ### A. 结构化流水线（DAG）
 

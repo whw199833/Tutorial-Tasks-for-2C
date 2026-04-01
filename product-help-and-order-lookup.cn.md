@@ -4,7 +4,7 @@
 
 **任务说明**：产品身份（如 Clawbot）、端侧访问方式、某功能在哪里打开、网格/订单状态「怎么用」等**说明型**意图；Skills 仅在涉及**真实查单、查行情**时介入，其余依赖官方文档与 Agent 通用知识。
 
-**典型线上意图**：Clawbot 身份与功能；Binance AI iOS 访问；网格策略与订单状态查询；ETF 对价格影响（部分与 `market-data-and-analysis.md` 重叠）。
+**典型线上意图**：Clawbot 身份与功能；Binance AI iOS 访问；网格策略与订单状态查询；ETF 对价格影响（部分与 `market-data-and-analysis.cn.md` 重叠）。
 
 ---
 
@@ -21,7 +21,7 @@
 
 ## Plan（执行计划）
 
-> 与 `Task_upgrade_advice.md` §7 对齐：**先 FAQ 后接口**；仅「查我的单/网格」时进入读单流水线；先确认现货/合约/算法。
+> 与 `Task_upgrade_advice.cn.md` §7 对齐：**先 FAQ 后接口**；仅「查我的单/网格」时进入读单流水线；先确认现货/合约/算法。
 
 ### A. 结构化流水线（DAG）
 
@@ -63,4 +63,4 @@
 ### 接口约定
 
 - **查单与下单同一 Skill**：现货仅使用 `spot` 的 `/api/v3/*`，不要用 `convert` 查现货限价单。
-- **与 `trading-execution.md`**：网格/止盈止损状态以对应市场的 `openOrders`、`allOrders` 或 `algo/*/openOrders` 为准。
+- **与 `trading-execution.cn.md`**：网格/止盈止损状态以对应市场的 `openOrders`、`allOrders` 或 `algo/*/openOrders` 为准。

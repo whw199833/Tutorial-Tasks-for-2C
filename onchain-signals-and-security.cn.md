@@ -22,7 +22,7 @@
 
 ## Plan（执行计划）
 
-> 与 `Task_upgrade_advice.md` §5 对齐：**有合约则先审计**；再谈信号；信号代币用 `dynamic` 看流动性；地址监控走分页；Meme 可与信号对齐叙事。
+> 与 `Task_upgrade_advice.cn.md` §5 对齐：**有合约则先审计**；再谈信号；信号代币用 `dynamic` 看流动性；地址监控走分页；Meme 可与信号对齐叙事。
 
 ### A. 结构化流水线（DAG）
 
@@ -49,7 +49,7 @@
    - Query：`address`、`chainId`、`offset`；Headers：`clienttype: web`、`clientversion: 1.2.0`。
 
 4. **补充行情（`query-token-info`）**
-   - `GET .../market/token/search/ai` 或 `.../token/dynamic/info/ai`（见 `market-data-and-analysis.md`）用于信号代币的现价与流动性。
+   - `GET .../market/token/search/ai` 或 `.../token/dynamic/info/ai`（见 `market-data-and-analysis.cn.md`）用于信号代币的现价与流动性。
 
 5. **Meme 赛道（`meme-rush`）**
    - `POST .../buw/wallet/market/token/pulse/rank/list/ai`（`rankType` 10/20/30）；Topic 用 `GET .../social-rush/rank/list/ai`。
@@ -68,5 +68,5 @@
 ### 接口与隐私
 
 - **链 ID**：BSC `56`、Base `8453`、Solana `CT_501`、Ethereum `1`（审计支持）。
-- **与 `market-data-and-analysis.md`**：榜单与宏观情绪用该文档中的 unified/social API；本 Task 偏地址级与信号级。
+- **与 `market-data-and-analysis.cn.md`**：榜单与宏观情绪用该文档中的 unified/social API；本 Task 偏地址级与信号级。
 - **隐私**：响应中的钱包地址、持仓在展示给用户前按需脱敏。

@@ -24,7 +24,7 @@
 
 ## Plan（执行计划）
 
-> 与 `Task_upgrade_advice.md` §6 对齐：**定位 → 排雷（审计）→ 市场位置 → 行为/叙事**；RWA 独立；收口为「事实 + 假设」；下单转 `trading-execution.md`。
+> 与 `Task_upgrade_advice.cn.md` §6 对齐：**定位 → 排雷（审计）→ 市场位置 → 行为/叙事**；RWA 独立；收口为「事实 + 假设」；下单转 `trading-execution.cn.md`。
 
 ### A. 结构化流水线（DAG）
 
@@ -35,7 +35,7 @@
 | **市场位置** | `unified/rank`（关键词/板块 filter）+ `inflow/rank`（`tagType=2`）→ 回答分位、相对强弱。 |
 | **行为与叙事** | `trading-signal`；Meme：`meme-rush` 或 exclusive rank；社交热度可选 `social/hype`。 |
 | **RWA** | 仅走 `binance-tokenized-securities-info` 列表→动态→K 线，**不**与 Meme 混写。 |
-| **收口** | **事实层（接口）+ 假设层（风险与仓位区间）**；执行下单转 `trading-execution.md`。 |
+| **收口** | **事实层（接口）+ 假设层（风险与仓位区间）**；执行下单转 `trading-execution.cn.md`。 |
 
 ### B. 接口级速查
 
@@ -55,7 +55,7 @@
 4. **RWA/美股代币**
    - `binance-tokenized-securities-info`：`GET https://www.binance.com/.../rwa/stock/detail/list/ai` → 动态数据/K 线按 SKILL 工作流（API 1→5/6）。
 
-5. **下单**：转 `trading-execution.md`（`spot`/`fapi`/`dapi`/`eapi` 等），本任务不执行交易 REST。
+5. **下单**：转 `trading-execution.cn.md`（`spot`/`fapi`/`dapi`/`eapi` 等），本任务不执行交易 REST。
 
 ---
 
