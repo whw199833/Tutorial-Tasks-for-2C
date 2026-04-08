@@ -20,13 +20,34 @@
 | 场景 | `alpha` | Binance Alpha 代币相关 |
 | 场景 | `binance-tokenized-securities-info` | RWA/美股代币化研究 |
 
+**binance-skills-hub**：`query-*` / `crypto-market-rank` / `trading-signal` / `meme-rush` / `binance-tokenized-securities-info` → **`skills/binance-web3/`**；`alpha` → **`skills/binance/alpha/`**；执行侧见 `trading-execution.cn.md`（含 **`binance` CLI**）。
+
 ---
 
 ## Plan（执行计划）
 
 > 与 `Task_upgrade_advice.cn.md` §6 对齐：**定位 → 排雷（审计）→ 市场位置 → 行为/叙事**；RWA 独立；收口为「事实 + 假设」；下单转 `trading-execution.cn.md`。
 
+### 状态确认与不支持时的沟通
+
+- **规划前需确认**：研究与「是否下单」分离；若用户要求**可执行计划**（金额、仓位），必须先确认 **余额、挂单、风险敞口**（衔接 `trading-execution.cn.md`）。
+- **若审计不通过或数据不足**：① 以风险披露为主；② 追问是否仍需要行情/叙事层信息；③ **不**在资金状态未明时给出确定性买入计划。
+- **跨 Task 原则**：见 [Task_upgrade_advice.cn.md](./Task_upgrade_advice.cn.md) 开篇。
+
 ### A. 结构化流水线（DAG）
+
+**Step 0: 前置状态诊断 (Prerequisite State Check) - *MANDATORY***
+> **目标**: 在执行任何具体任务前，必须先全面了解用户的当前状态，以提供个性化、避免风险的建议。
+> **核心 Skills**: `assets`, `spot` (for `getOrders`), `derivatives-trading-usds-futures` (for `getPositions`)
+
+1.  **账户资产查询**: 调用 `assets.getUserAssets`，检查各钱包（特别是现货 `SPOT` 和资金 `FUNDING`）的可用余额、总估值。
+2.  **当前持仓分析**: 调用 `derivatives-trading-usds-futures.getPositions`，检查用户是否有U本位合约持仓，了解其方向、大小和未实现盈亏。
+3.  **历史交易与挂单**: 调用 `spot.getOrders`，检查用户近期的交易习惯（如偏好的币对）和当前有无未成交的挂单。
+
+> **诊断后决策**: 根据诊断结果动态调整后续步骤。例如，如果用户已有相关持仓，应优先围绕该持仓展开计划；如果资金不足，则参考 `fuzzy-intent-and-account-onboarding.cn.md` 进行入金引导。
+
+---
+
 
 | 步骤 | 动作 |
 |------|------|

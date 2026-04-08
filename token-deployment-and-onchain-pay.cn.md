@@ -17,13 +17,34 @@
 | 安全 | `query-token-audit` | 部署前后合约风险意识教育 |
 | 地址 | `query-address-info` | 部署相关地址持仓查看 |
 
+**binance-skills-hub**：`onchain-pay-open-api` → **`skills/binance/onchain-pay/SKILL.md`**（`name` 为 `onchain-pay-open-api`）；其余 Web3 Skills → **`skills/binance-web3/`**。
+
 ---
 
 ## Plan（执行计划）
 
 > 与 `Task_upgrade_advice.cn.md` §8 对齐：部署无一键 REST；支付侧 **pairs → payment → quote → address/network → pre-order → poll**；部署后 **search + audit + 地址持仓** 做事后验证。
 
+### 状态确认与不支持时的沟通
+
+- **规划前需确认**：支付路径下的 **法币/币对、金额、收款地址与网络**；`estimated-quote` 前是否具备足够资金（可衔接 `assets`）。
+- **若链上支付失败或限额不足**：① 说明错误与限额；② 追问：是否换支付方式/网络、是否调整金额；③ 在将 `pre-order`/`order` 推进至终态前，须由用户确认地址与网络无误。
+- **跨 Task 原则**：见 [Task_upgrade_advice.cn.md](./Task_upgrade_advice.cn.md) 开篇。
+
 ### A. 结构化流水线（DAG）
+
+**Step 0: 前置状态诊断 (Prerequisite State Check) - *MANDATORY***
+> **目标**: 在执行任何具体任务前，必须先全面了解用户的当前状态，以提供个性化、避免风险的建议。
+> **核心 Skills**: `assets`, `spot` (for `getOrders`), `derivatives-trading-usds-futures` (for `getPositions`)
+
+1.  **账户资产查询**: 调用 `assets.getUserAssets`，检查各钱包（特别是现货 `SPOT` 和资金 `FUNDING`）的可用余额、总估值。
+2.  **当前持仓分析**: 调用 `derivatives-trading-usds-futures.getPositions`，检查用户是否有U本位合约持仓，了解其方向、大小和未实现盈亏。
+3.  **历史交易与挂单**: 调用 `spot.getOrders`，检查用户近期的交易习惯（如偏好的币对）和当前有无未成交的挂单。
+
+> **诊断后决策**: 根据诊断结果动态调整后续步骤。例如，如果用户已有相关持仓，应优先围绕该持仓展开计划；如果资金不足，则参考 `fuzzy-intent-and-account-onboarding.cn.md` 进行入金引导。
+
+---
+
 
 | 步骤 | 动作 |
 |------|------|

@@ -15,13 +15,34 @@
 | 主路径 | `square-post` | 发布内容到 Binance Square |
 | 辅助 | — | 配图、翻译、摘要为 Agent 通用能力，不强制 Skill |
 
+**binance-skills-hub**：`square-post` → **`skills/binance/square-post/SKILL.md`**。
+
 ---
 
 ## Plan（执行计划）
 
 > 与 `Task_upgrade_advice.cn.md` §10 对齐：**撰稿定稿 → 敏感词/长度自检 → 如需则先拉行情事实 → 单点 `content/add`**；定时发帖 = 外部调度重复同一流程。
 
+### 状态确认与不支持时的沟通
+
+- **规划前需确认**：发帖是否需账号/Square 侧权限（以 Skill 与接口返回为准）；引用行情时是否已按 `market-data-and-analysis.cn.md` 拉取可引用事实。
+- **若 `content/add` 失败（敏感词/长度等）**：① 说明错误类型；② 追问用户是否接受修改稿或缩短正文；③ **不在**未确认定稿前重复调用发布。
+- **跨 Task 原则**：见 [Task_upgrade_advice.cn.md](./Task_upgrade_advice.cn.md) 开篇。
+
 ### A. 结构化流水线（DAG）
+
+**Step 0: 前置状态诊断 (Prerequisite State Check) - *MANDATORY***
+> **目标**: 在执行任何具体任务前，必须先全面了解用户的当前状态，以提供个性化、避免风险的建议。
+> **核心 Skills**: `assets`, `spot` (for `getOrders`), `derivatives-trading-usds-futures` (for `getPositions`)
+
+1.  **账户资产查询**: 调用 `assets.getUserAssets`，检查各钱包（特别是现货 `SPOT` 和资金 `FUNDING`）的可用余额、总估值。
+2.  **当前持仓分析**: 调用 `derivatives-trading-usds-futures.getPositions`，检查用户是否有U本位合约持仓，了解其方向、大小和未实现盈亏。
+3.  **历史交易与挂单**: 调用 `spot.getOrders`，检查用户近期的交易习惯（如偏好的币对）和当前有无未成交的挂单。
+
+> **诊断后决策**: 根据诊断结果动态调整后续步骤。例如，如果用户已有相关持仓，应优先围绕该持仓展开计划；如果资金不足，则参考 `fuzzy-intent-and-account-onboarding.cn.md` 进行入金引导。
+
+---
+
 
 | 步骤 | 动作 |
 |------|------|

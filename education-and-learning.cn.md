@@ -17,11 +17,19 @@
 | 扩展 | `skill-creator` | 用户希望把知识固化成可复用 Agent Skill 时 |
 | 一般 | — | 术语与通识无需 Skill |
 
+**binance-skills-hub**：案例用 **`skills/binance-web3/query-token-info`** 等；`skill-creator` **不在** hub 内（见 README 说明）。
+
 ---
 
 ## Plan（执行计划）
 
 > 与 `Task_upgrade_advice.cn.md` §11 对齐：**概念先行** → 用户要实例时再走 **search → dynamic → K 线** 演示链；榜单教学单次 `unified/rank`；固化教程用 `skill-creator`。
+
+### 状态确认与不支持时的沟通
+
+- **规划前需确认**：**纯概念/术语/学习计划** → 通常无需账户状态；若用户要求「按我的资金举例」或「帮我算该买多少」，须先确认余额与目标（衔接 `trading-execution.cn.md`）。
+- **若信息不足**：追问用户是**示例金额**还是真实账户；未确认前**仅给出**通用公式与条件化示例。
+- **跨 Task 原则**：见 [Task_upgrade_advice.cn.md](./Task_upgrade_advice.cn.md) 开篇。
 
 ### A. 结构化流水线（DAG）
 

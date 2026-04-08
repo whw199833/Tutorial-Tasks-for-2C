@@ -26,7 +26,26 @@
 
 > 与 `Task_upgrade_advice.cn.md` §2 对齐：先归类错误 → 权限真值 → 分市场读通路 → 子账户/IP → 签名环境 → 供应链工具。
 
+### 状态确认与不支持时的沟通
+
+- **规划前需确认**：报错码/HTTP 状态；所用 Key 所属账户（主/子）、是否开启「允许交易」、IP 白名单是否与调用环境一致。
+- **若读通路仍失败**（权限真值与业务不符）：① 说明已验证项与失败层；② 追问用户：是否在 App 内核对 API 权限、是否需更换子账户 Key、本机时间是否同步；③ 区分「交易所侧限制」与「本地代码/签名」问题，不明确时不下「已修复」结论。
+- **跨 Task 原则**：见 [Task_upgrade_advice.cn.md](./Task_upgrade_advice.cn.md) 开篇。
+
 ### A. 结构化流水线（DAG）
+
+**Step 0: 前置状态诊断 (Prerequisite State Check) - *MANDATORY***
+> **目标**: 在执行任何具体任务前，必须先全面了解用户的当前状态，以提供个性化、避免风险的建议。
+> **核心 Skills**: `assets`, `spot` (for `getOrders`), `derivatives-trading-usds-futures` (for `getPositions`)
+
+1.  **账户资产查询**: 调用 `assets.getUserAssets`，检查各钱包（特别是现货 `SPOT` 和资金 `FUNDING`）的可用余额、总估值。
+2.  **当前持仓分析**: 调用 `derivatives-trading-usds-futures.getPositions`，检查用户是否有U本位合约持仓，了解其方向、大小和未实现盈亏。
+3.  **历史交易与挂单**: 调用 `spot.getOrders`，检查用户近期的交易习惯（如偏好的币对）和当前有无未成交的挂单。
+
+> **诊断后决策**: 根据诊断结果动态调整后续步骤。例如，如果用户已有相关持仓，应优先围绕该持仓展开计划；如果资金不足，则参考 `fuzzy-intent-and-account-onboarding.cn.md` 进行入金引导。
+
+---
+
 
 | 步骤 | 动作 |
 |------|------|
@@ -60,6 +79,14 @@
    - `POST` 同路径族：新增 IP 限制；`DELETE .../ipList`：删除 IP。
 
 6. **`healthcheck` / `skill-vetter`**：按各自 SKILL 文档执行（不在本仓库 REST 表中展开）；与交易所 HTTP 错误码排查互补。
+
+### C. binance-cli 认证与环境（`binance` Skill）
+
+若用户使用 **`binance-cli`**（`skills/binance/binance/SKILL.md`）排查或复现问题，认证与 Profile 以 **`references/auth.md`** 为准：
+
+- **环境变量**：`BINANCE_API_KEY`、`BINANCE_API_SECRET`；可选 `BINANCE_API_ENV`（`prod` \| `testnet` \| `demo`）。
+- **Profile**：`binance-cli profile create --name ... --api-key ... --api-secret ... --env ...`；`binance-cli profile change`；`binance-cli profile view`；任意命令可加 `--profile <name>`。
+- **安全**：勿在日志中输出密钥；与 REST 排查相同，先只读（如 `binance-cli spot get-account`）再谈写操作。
 
 ---
 

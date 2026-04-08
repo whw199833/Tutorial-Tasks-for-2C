@@ -18,13 +18,34 @@
 | 辅助 | `query-token-info` | 代币基础信息与价格上下文 |
 | 辅助 | `meme-rush` | Meme 赛道热度与追踪 |
 
+**binance-skills-hub**：均在 **`skills/binance-web3/<skill-name>/SKILL.md`**；交易所侧下单不在本 Task。
+
 ---
 
 ## Plan（执行计划）
 
 > 与 `Task_upgrade_advice.cn.md` §5 对齐：**有合约则先审计**；再谈信号；信号代币用 `dynamic` 看流动性；地址监控走分页；Meme 可与信号对齐叙事。
 
+### 状态确认与不支持时的沟通
+
+- **规划前需确认**：有合约地址时**审计结果**；若用户后续要在**交易所执行**，须额外确认交易侧账户状态（转 `trading-execution.cn.md`）。
+- **若审计高风险或流动性极低**：① 明确风险等级；② 追问是否仍要了解信号/链上监控；③ **不暗示**可安全重仓；需监控的地址未提供时，追问用户是否补充地址。
+- **跨 Task 原则**：见 [Task_upgrade_advice.cn.md](./Task_upgrade_advice.cn.md) 开篇。
+
 ### A. 结构化流水线（DAG）
+
+**Step 0: 前置状态诊断 (Prerequisite State Check) - *MANDATORY***
+> **目标**: 在执行任何具体任务前，必须先全面了解用户的当前状态，以提供个性化、避免风险的建议。
+> **核心 Skills**: `assets`, `spot` (for `getOrders`), `derivatives-trading-usds-futures` (for `getPositions`)
+
+1.  **账户资产查询**: 调用 `assets.getUserAssets`，检查各钱包（特别是现货 `SPOT` 和资金 `FUNDING`）的可用余额、总估值。
+2.  **当前持仓分析**: 调用 `derivatives-trading-usds-futures.getPositions`，检查用户是否有U本位合约持仓，了解其方向、大小和未实现盈亏。
+3.  **历史交易与挂单**: 调用 `spot.getOrders`，检查用户近期的交易习惯（如偏好的币对）和当前有无未成交的挂单。
+
+> **诊断后决策**: 根据诊断结果动态调整后续步骤。例如，如果用户已有相关持仓，应优先围绕该持仓展开计划；如果资金不足，则参考 `fuzzy-intent-and-account-onboarding.cn.md` 进行入金引导。
+
+---
+
 
 | 步骤 | 动作 |
 |------|------|

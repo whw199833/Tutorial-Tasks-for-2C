@@ -16,11 +16,19 @@
 | 通用 | `query-token-info` / `crypto-market-rank` | 活动涉及特定币时可拉行情 |
 | 边界 | — | 活动规则以官方页面为准 |
 
+**binance-skills-hub**：`alpha` → **`skills/binance/alpha/SKILL.md`**；行情类补充见 **`skills/binance-web3/`**。
+
 ---
 
 ## Plan（执行计划）
 
 > 与 `Task_upgrade_advice.cn.md` §9 对齐：**规则以官网为准** → 可选「活动提到的币」行情佐证 → 可选用户自查交易量；讨论类无 API。
+
+### 状态确认与不支持时的沟通
+
+- **规划前需确认**：活动规则以官网为准；若用户问「我是否达标」，可走 **可选** `getUserAsset` + 订单时间窗，并**声明**与活动统计口径可能不一致。
+- **若无法从 API 匹配活动任务进度**：① 说明 API 边界；② 追问用户是否在 App 活动页查看进度；③ **不编造**「已完成/未完成任务」。
+- **跨 Task 原则**：见 [Task_upgrade_advice.cn.md](./Task_upgrade_advice.cn.md) 开篇。
 
 ### A. 结构化流水线（DAG）
 
