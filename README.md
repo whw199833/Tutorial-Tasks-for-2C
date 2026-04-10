@@ -1,86 +1,39 @@
-# Popular-Intent-Tasks
+# Must-read: user intent analysis & planning
 
-For **Binance AI Pro (Clawbot)**-style scenarios: map online user intents to **Tasks**, and for each Task list **applicable Skills**, a **structured execution order (DAG)**, and **REST/endpoint quick reference**, so agents pick skills step-by-step instead of flat API calls.
+This package maps **Binance AI Pro (Clawbot)**–style user intents to **hub skills**, a **structured plan (DAG)**, and **endpoint quick references**. It does not replace executable skills; it tells agents **which skill to use and in what order**.
 
-This folder lives under **`skills/Popular-Intent-Tasks/`** in the **binance-skills-hub** repository. Executable hub skills are **siblings**: **`../binance/`** (REST + `binance-cli` bundle) and **`../binance-web3/`** (market, audit, signals). From the **repository root**, those are `skills/binance/` and `skills/binance-web3/`.
-
----
-
-## What’s in this folder
-
-| Item | Description |
-|------|-------------|
-| **Task docs** (`*.md`) | One file per intent: `Description`, recommended Skills, **Plan (§A DAG + §B endpoint quick ref [+ §C `binance-cli` where applicable])**, usage notes. |
-| **DAG overview** | **[Task_upgrade_advice.md](./Task_upgrade_advice.md)**: cross-task default pipelines aligned with §A in each Task; HTTP detail stays in each Task §B and the matching hub `SKILL.md`. |
-| **Intent taxonomy** | **`intent_category.json`**: intent categories and example queries. |
+Executable skills live next to this folder: **`../binance/`** (REST, Simple Earn, `binance-cli` bundle under `binance/binance/`) and **`../binance-web3/`** (market, audit, signals).
 
 ---
 
-## How to read (recommended)
+## Layout
 
-1. **Pick intent**: Use **`intent_category.json`**, then the **Task index** table below.
-2. **Pre-planning account check** (funds, trades, transfers, earn subscribe, borrow): Before **planning**, confirm balance, open/in-flight orders, locks—see **Pre-planning** in [Task_upgrade_advice.md](./Task_upgrade_advice.md). Pure market data, education, or compliance explainers may skip.
-3. **Read the DAG**: Open the Task → **Plan → §A** (narrowing order).
-4. **Look up endpoints**: Task **§B** ↔ hub **`SKILL.md`**. For **spot / convert / USDS-M** with `binance-cli`, also open **`../binance/binance/SKILL.md`** and `../binance/binance/references/*.md` (repo root: `skills/binance/binance/`).
+| Item | Path (from this `README`) |
+|------|---------------------------|
+| Entry skill (index + intent table) | [`must-read-user-intent-analysis-planning/SKILL.md`](./must-read-user-intent-analysis-planning/SKILL.md) |
+| Cross-task pre-planning & DAG index | [`must-read-user-intent-analysis-planning/references/task-upgrade-advice.md`](./must-read-user-intent-analysis-planning/references/task-upgrade-advice.md) |
+| Per-intent plans (§A DAG, §B/C endpoints) | [`must-read-user-intent-analysis-planning/references/`](./must-read-user-intent-analysis-planning/references/) |
+| Intent taxonomy (English) | [`must-read-user-intent-analysis-planning/intent_category.json`](./must-read-user-intent-analysis-planning/intent_category.json) |
 
----
-
-## Task index (intent → file → core skills)
-
-| Task doc | Intent (summary) | Core skills |
-|----------|------------------|-------------|
-| [account-and-asset-management.md](./account-and-asset-management.md) | Account & assets | assets, sub-account, fiat |
-| [api-authorization-and-debugging.md](./api-authorization-and-debugging.md) | API & system auth | assets, derivatives-*, sub-account, healthcheck, skill-vetter |
-| [trading-execution.md](./trading-execution.md) | Trading strategy & execution | **binance** (CLI), spot, convert, algo, p2p, margin-trading, derivatives-* |
-| [market-data-and-analysis.md](./market-data-and-analysis.md) | Market analysis & quotes | query-token-info, crypto-market-rank, trading-signal, meme-rush, binance-tokenized-securities-info |
-| [onchain-signals-and-security.md](./onchain-signals-and-security.md) | On-chain data & smart money | trading-signal, query-token-audit, query-address-info, query-token-info, meme-rush |
-| [token-research-and-opportunities.md](./token-research-and-opportunities.md) | Token research & opportunities | query-token-info, crypto-market-rank, trading-signal, query-token-audit, meme-rush, alpha |
-| [product-help-and-order-lookup.md](./product-help-and-order-lookup.md) | Product help & how-to | binance (CLI, optional), spot / algo / derivatives-* (order lookup), skill-creator, skill-vetter |
-| [token-deployment-and-onchain-pay.md](./token-deployment-and-onchain-pay.md) | Token launch & on-chain pay | onchain-pay-open-api, query-token-info, query-token-audit, query-address-info |
-| [campaigns-and-rewards.md](./campaigns-and-rewards.md) | Campaigns & incentives | alpha (context) |
-| [binance-square-posting.md](./binance-square-posting.md) | Content & social (Square) | square-post |
-| [education-and-learning.md](./education-and-learning.md) | Education & learning | query-token-info (examples), skill-creator (optional) |
-| [simple-earn-and-vip-loan.md](./simple-earn-and-vip-loan.md) | Earn & borrow (supplement) | simple-earn, vip-loan, assets |
-| [fuzzy-intent-and-account-onboarding.md](./fuzzy-intent-and-account-onboarding.md) | Vague / onboarding intents | assets, p2p, fiat, spot (guided first steps) |
-
-**Notes**
-
-- **`weather`**: standalone tool skill; no separate Task doc.
-- **Environment safety**: pair with **`healthcheck`** via [api-authorization-and-debugging.md](./api-authorization-and-debugging.md).
-- **On-chain tasks**: if there is a **contract address**, **audit first** (`query-token-audit`)—see [onchain-signals-and-security.md](./onchain-signals-and-security.md) §A.
+The inner directory name matches the skill folder convention (same name as the skill); start from **`SKILL.md`** inside it.
 
 ---
 
-## Skill names (aligned with binance-skills-hub)
+## How to use
 
-**26** skills ship in this hub (`name` in each `SKILL.md`). **3** names appear in Tasks but are **not** in this repo: `healthcheck`, `skill-creator`, `weather` (deployment-dependent).
-
-**CLI bundle (spot / convert / USDS-M)**: `binance` — `binance-cli` vs REST `spot` / `convert` / `derivatives-trading-usds-futures`. Entry: **`../binance/binance/SKILL.md`** (root: `skills/binance/binance/SKILL.md`); refs: `references/spot.md`, `convert.md`, `futures-usds.md`, `auth.md`.
-
-**Spot & trading (REST)**: `spot`, `convert`, `algo`, `p2p`
-
-**Derivatives**: `derivatives-trading-usds-futures`, `derivatives-trading-coin-futures`, `derivatives-trading-options`, `derivatives-trading-portfolio-margin`, `derivatives-trading-portfolio-margin-pro`, `margin-trading`
-
-**Assets & earn**: `assets`, `simple-earn`, `vip-loan`, `fiat`
-
-**Market (`../binance-web3/`)**: `query-token-info`, `crypto-market-rank`, `binance-tokenized-securities-info`, `trading-signal`, `meme-rush`
-
-**Security**: `query-token-audit`, `query-address-info`; **not in hub**: `skill-vetter`, `healthcheck`
-
-**Social & pay**: `square-post`, `onchain-pay-open-api` (folder `onchain-pay`), `alpha`
-
-**Account & tools**: `sub-account`; **not in hub**: `skill-creator`, `weather`
+1. **Classify intent** — Open [`intent_category.json`](./must-read-user-intent-analysis-planning/intent_category.json) for categories and example queries; match the user to one intent doc in the skill table.
+2. **Pre-plan** — Before orders, transfers, earn subscribe, or borrow, read **Pre-planning** in [`task-upgrade-advice.md`](./must-read-user-intent-analysis-planning/references/task-upgrade-advice.md).
+3. **Execute the plan** — Open the corresponding file under **`references/`** for status checks, §A pipeline, and §B (§C for CLI where applicable).
+4. **Call APIs** — Follow links from those docs to **`../binance/<skill>/SKILL.md`**, **`../binance/binance/SKILL.md`** (CLI), and **`../binance-web3/<skill>/SKILL.md`**.
 
 ---
 
 ## Compliance
 
-- Tasks describe **routing and capability**, not investment advice; for trades, loans, and campaign rules, follow **Binance official pages and product terms**.
-- Campaigns: **no** full campaign-text API in this skill set—rules live on the website/app.
+- Content here is **routing and capability**, not investment advice. Trades, loans, and campaign rules follow **Binance official product pages and terms**.
 
 ---
 
 ## Maintenance
 
-- Update **`intent_category.json`** when intents change, then add or remap Task `*.md` files.
-- Keep §B endpoint lists consistent with the corresponding hub **`SKILL.md`** under `../binance/` and `../binance-web3/`.
+- Update **`references/*.md`** and **`intent_category.json`** beside the inner **`SKILL.md`**; keep §B endpoint lists aligned with the matching hub **`SKILL.md`** under `binance/` and `binance-web3/`.

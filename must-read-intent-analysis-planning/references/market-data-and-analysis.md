@@ -1,14 +1,3 @@
----
-name: market-data-and-analysis
-description: |
-  Real-time prices, gainers/losers, heat, ETF/macro data context, klines/volume/rankings for technical discussion—query and rank, not placing orders on behalf of the user.
-
-  Typical intents: BTC live price; top/bottom alts; volatility analysis; Bitcoin move reasons (news via agent knowledge; skills supply market data); smart money and market data (with trading-signal).
-metadata:
-  author: binance-bigdata-team
-  version: "1.0"
----
-
 # Market Data and Analysis
 
 ## Overview
@@ -38,19 +27,19 @@ metadata:
 | Secondary | `binance-tokenized-securities-info` | Tokenized equities (RWA) |
 | Secondary | `meme-rush` | Meme launch tracking |
 
-**binance-skills-hub**: listed skills live under **`skills/binance-web3/<skill-name>/SKILL.md`**; no direct mapping to **`binance-cli`**—spot/USDS orders → `trading-execution.md`.
+**binance-skills-hub**: listed skills live under **`skills/binance-web3/<skill-name>/SKILL.md`**; no direct mapping to **`binance-cli`**—spot/USDS orders → [trading-execution.md](./trading-execution.md).
 
 ---
 
 ## Plan
 
-> Aligns with `Task_upgrade_advice.md` §4: **broad then narrow** — rankings/themes → Top N → `meta`+`dynamic` → **multi-interval klines** for 1–3 symbols → optional inflow/smart money; RWA separate workflow; macro via agent.
+> Aligns with `task-upgrade-advice.md` §4: **broad then narrow** — rankings/themes → Top N → `meta`+`dynamic` → **multi-interval klines** for 1–3 symbols → optional inflow/smart money; RWA separate workflow; macro via agent.
 
 ### Status checks and when you cannot proceed
 
-- **Before planning**: Pure market/teaching klines → **usually no** account state; if intent includes “how much can I buy with my account” or execution-tied advice, confirm balance/orders via `account-and-asset-management.md` / `trading-execution.md`.
+- **Before planning**: Pure market/teaching klines → **usually no** account state; if intent includes “how much can I buy with my account” or execution-tied advice, confirm balance/orders via [account-and-asset-management.md](./account-and-asset-management.md) / [trading-execution.md](./trading-execution.md).
 - **If APIs fail or pair missing**: State gap; ask for symbol/chain/keyword for `search`; **do not** assume fill price or place orders.
-- **Cross-task rules**: [Task_upgrade_advice.md](./Task_upgrade_advice.md).
+- **Cross-task rules**: [task-upgrade-advice.md](./task-upgrade-advice.md).
 
 ### A. Structured pipeline (DAG)
 
@@ -59,7 +48,7 @@ metadata:
 > **Core skills**: `assets`, `spot`, `derivatives-trading-usds-futures` — use when user ties analysis to account or execution.
 
 1. `assets.getUserAssets`; 2. `getPositions`; 3. `spot.getOrders`.  
-> If underfunded: **`fuzzy-intent-and-account-onboarding.md`**.
+> If underfunded: **[fuzzy-intent-and-account-onboarding.md](./fuzzy-intent-and-account-onboarding.md)**.
 
 ---
 

@@ -1,14 +1,3 @@
----
-name: token-research-and-opportunities
-description: |
-  Alts, sectors, new launches, Alpha, risk/reward research; skills supply data, signals, audit, rankings—not definitive investment advice.
-
-  Typical intents: Alt “investment ideas”; new tokens and trends; AI-theme tokens; DeFi inflows; Meme/new launches; specific tickers, entries, position sizing, etc.
-metadata:
-  author: binance-bigdata-team
-  version: "1.0"
----
-
 # Token Research and Opportunities
 
 ## Overview
@@ -40,19 +29,19 @@ metadata:
 | Context | `alpha` | Binance Alpha tokens |
 | Context | `binance-tokenized-securities-info` | RWA / tokenized equities |
 
-**binance-skills-hub**: web3 skills under **`skills/binance-web3/`**; `alpha` → **`skills/binance/alpha/`**; execution → **`trading-execution.md`** (incl. **`binance` CLI**).
+**binance-skills-hub**: web3 skills under **`skills/binance-web3/`**; `alpha` → **`skills/binance/alpha/`**; execution → **[trading-execution.md](./trading-execution.md)** (incl. **`binance` CLI**).
 
 ---
 
 ## Plan
 
-> Aligns with `Task_upgrade_advice.md` §6: **locate → audit → market position → behavior/narrative**; RWA separate; close with **facts + assumptions**; orders → `trading-execution.md`.
+> Aligns with `task-upgrade-advice.md` §6: **locate → audit → market position → behavior/narrative**; RWA separate; close with **facts + assumptions**; orders → [trading-execution.md](./trading-execution.md).
 
 ### Status checks and when you cannot proceed
 
-- **Before planning**: Separate research from “place orders”; if user wants **executable plan** (size, leverage), confirm **balance, orders, risk** (`trading-execution.md`).
+- **Before planning**: Separate research from “place orders”; if user wants **executable plan** (size, leverage), confirm **balance, orders, risk** ([trading-execution.md](./trading-execution.md)).
 - **If audit fails or data thin**: (1) Risk disclosure first; (2) Ask if they still want narrative/price layer; (3) **No** definitive buy plan without funding state.
-- **Cross-task rules**: [Task_upgrade_advice.md](./Task_upgrade_advice.md).
+- **Cross-task rules**: [task-upgrade-advice.md](./task-upgrade-advice.md).
 
 ### A. Structured pipeline (DAG)
 
@@ -67,7 +56,7 @@ metadata:
 | **Market position** | `unified/rank` + `inflow/rank` (`tagType=2`) → percentile, relative strength. |
 | **Behavior/narrative** | `trading-signal`; Meme: `meme-rush` or exclusive rank; optional `social/hype`. |
 | **RWA** | Only `binance-tokenized-securities-info` pipeline—**do not** mix with Meme copy. |
-| **Close** | **Facts (API) + assumptions (risk, sizing bands)**; execution → `trading-execution.md`. |
+| **Close** | **Facts (API) + assumptions (risk, sizing bands)**; execution → [trading-execution.md](./trading-execution.md). |
 
 ### B. Endpoint quick reference
 
@@ -75,7 +64,7 @@ metadata:
 2. **Market/sector**: `crypto-market-rank` `unified/rank/list/ai`; inflow `inflow/rank/query/ai` (`tagType: 2`).
 3. **Signals/risk**: `query-token-audit`; `trading-signal`; Meme ranks per SKILL.
 4. **RWA**: `binance-tokenized-securities-info` workflow (API 1→6 per SKILL).
-5. **Orders**: `trading-execution.md` only—no trade REST in this task.
+5. **Orders**: [trading-execution.md](./trading-execution.md) only—no trade REST in this task.
 
 ---
 

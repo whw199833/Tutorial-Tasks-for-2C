@@ -1,14 +1,3 @@
----
-name: fuzzy-intent-and-account-onboarding
-description: |
-  For vague first messages or broad intent (e.g. icebreakers and broad “what can you do” / onboarding asks).
-
-  Typical intents: What can you do; how do I start as a newbie; teach me to make money; what features do you have; hello; other unfocused first messages.
-metadata:
-  author: binance-bigdata-team
-  version: "1.0"
----
-
 # Fuzzy intent and account onboarding
 
 ## Overview
@@ -79,3 +68,5 @@ The agent should:
 - **Privacy**: summarize (“~$500 mostly in spot”); skip dust; focus on **next-step** relevance.
 - **CTA**: end with a **binary or concrete question** (“Deposit first, or scan today’s market?”)—avoid dead-end statements.
 - **Not financial advice**; KYC/fiat edge cases → human support.
+
+For cross-task pre-planning and the full intent index, see [task-upgrade-advice.md](./task-upgrade-advice.md) and the parent [SKILL.md](../SKILL.md).

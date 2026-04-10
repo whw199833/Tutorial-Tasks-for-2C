@@ -1,14 +1,3 @@
----
-name: simple-earn-and-vip-loan
-description: |
-  Simple Earn subscribe/redeem and VIP Loan flows; distinct from plain spot balance—yield and borrow product paths with `assets` checks.
-
-  Typical intents: Subscribe/redeem, APY, fixed terms, borrow rates, VIP loan limits and steps (may overlap account-asset intents—this task stresses product type).
-metadata:
-  author: binance-bigdata-team
-  version: "1.0"
----
-
 # Simple Earn and VIP Loan
 
 ## Overview
@@ -43,13 +32,13 @@ metadata:
 
 ## Plan
 
-> Aligns with `Task_upgrade_advice.md` §12: **pick product line** (Simple Earn / VIP Loan / margin) → list → positions → preview → subscribe/borrow → `getUserAsset` check.
+> Aligns with `task-upgrade-advice.md` §12: **pick product line** (Simple Earn / VIP Loan / margin) → list → positions → preview → subscribe/borrow → `getUserAsset` check.
 
 ### Status checks and when you cannot proceed
 
 - **Before planning**: Product line clear; **available balance** for subscribe/stake/collateral; **existing positions/orders** (duplicate subscribe?, borrow limit?).
 - **If preview fails or balance short**: (1) Product response and gap; (2) Transfer first?, other product/term?; (3) **No** `subscribe`/`borrow` until user confirms preview and amount.
-- **Cross-task rules**: [Task_upgrade_advice.md](./Task_upgrade_advice.md).
+- **Cross-task rules**: [task-upgrade-advice.md](./task-upgrade-advice.md).
 
 ### A. Structured pipeline (DAG)
 
@@ -62,7 +51,7 @@ metadata:
 | **Product line** | Retail earn → `simple-earn`; VIP collateralized loan → `vip-loan`; spot margin borrow/repay → `margin-trading` (different product). |
 | **Simple Earn** | `simple-earn/account` → `flexible/list` or `locked/list` → `subscriptionPreview` → confirm → `subscribe`; redeem: `position` → `redeem`. |
 | **VIP Loan** | `loanable/data` + `collateral/data` + `interestRate` → confirm → `borrow`; ongoing `ongoing/orders`, repay `repay` / renew `renew`. |
-| **Balance check** | Before/after `getUserAsset` (+ `get-funding-asset`) align with `account-and-asset-management.md`. |
+| **Balance check** | Before/after `getUserAsset` (+ `get-funding-asset`) align with [account-and-asset-management.md](./account-and-asset-management.md). |
 
 ### B. Endpoint quick reference
 
@@ -80,4 +69,4 @@ metadata:
 - **Split products first**: do not explain Simple Earn with VIP loan fields.
 - **Balance before and after** subscribe/borrow for user-visible delta.
 - **Retail earn** `simple-earn`; **VIP pledged loan** `vip-loan`; **spot margin** `margin-trading` `/sapi/v1/margin/*`.
-- **With `account-and-asset-management.md`**: flexible/fixed **positions** → `simple-earn/position`; generic balance → `getUserAsset`.
+- **With [account-and-asset-management.md](./account-and-asset-management.md)**: flexible/fixed **positions** → `simple-earn/position`; generic balance → `getUserAsset`.

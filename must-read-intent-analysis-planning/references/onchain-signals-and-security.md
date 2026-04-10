@@ -1,14 +1,3 @@
----
-name: onchain-signals-and-security
-description: |
-  BSC-style patterns, smart-money signals, token audit, address holdings; data/signal parts of monitoring/alert intents (scheduling stays in user env).
-
-  Typical intents: BSC transfer lookup; smart-money monitoring/alerts; scheduled monitoring/push; buy-signal notifications; token audit; smart-money + token analysis.
-metadata:
-  author: binance-bigdata-team
-  version: "1.0"
----
-
 # On-chain Signals and Security
 
 ## Overview
@@ -44,13 +33,13 @@ metadata:
 
 ## Plan
 
-> Aligns with `Task_upgrade_advice.md` §5: **contract → audit first**; then signals; `dynamic` liquidity on signal tokens; address paging; meme may align narrative.
+> Aligns with `task-upgrade-advice.md` §5: **contract → audit first**; then signals; `dynamic` liquidity on signal tokens; address paging; meme may align narrative.
 
 ### Status checks and when you cannot proceed
 
-- **Before planning**: If **contract address**, **audit** first; if user will **trade on exchange**, also confirm account state (`trading-execution.md`).
+- **Before planning**: If **contract address**, **audit** first; if user will **trade on exchange**, also confirm account state ([trading-execution.md](./trading-execution.md)).
 - **If audit high-risk or liquidity very low**: (1) State risk; (2) Ask if they still want signal/monitor view; (3) **Do not** imply safe to size up; ask for addresses to monitor if missing.
-- **Cross-task rules**: [Task_upgrade_advice.md](./Task_upgrade_advice.md).
+- **Cross-task rules**: [task-upgrade-advice.md](./task-upgrade-advice.md).
 
 ### A. Structured pipeline (DAG)
 
@@ -71,7 +60,7 @@ metadata:
 1. **`query-token-audit`**: `POST https://web3.binance.com/bapi/defi/v1/public/wallet-direct/security/token/audit` — `binanceChainId`, `contractAddress`, UUID `requestId`.
 2. **`trading-signal`**: `POST .../smart-money/ai` — `chainId`, `page`, `pageSize`.
 3. **`query-address-info`**: `GET .../address/pnl/active-position-list/ai` — `address`, `chainId`, `offset`.
-4. **`query-token-info`**: search/dynamic per `market-data-and-analysis.md` for signal token context.
+4. **`query-token-info`**: search/dynamic per [market-data-and-analysis.md](./market-data-and-analysis.md) for signal token context.
 5. **`meme-rush`**: rank endpoints per SKILL.
 6. **Monitoring**: all **pull** REST; scheduled push = user cron/serverless polling—no WebSocket hosting in skill.
 
@@ -93,5 +82,5 @@ Do **not** hardcode API keys; use env/secrets. Use the same endpoint URLs in you
 - **Audit ≠ tradable**: pass is technical scan only, not returns or endorsement.
 - **Signals + liquidity**: do not over-read smart-money direction on illiquid tokens.
 - **Chain IDs**: BSC `56`, Base `8453`, Solana `CT_501`, Ethereum `1` (audit).
-- **With `market-data-and-analysis.md`**: unified/social for breadth; this task for address/signal depth.
+- **With [market-data-and-analysis.md](./market-data-and-analysis.md)**: unified/social for breadth; this task for address/signal depth.
 - **Privacy**: redact wallet addresses/holdings when showing users if needed.

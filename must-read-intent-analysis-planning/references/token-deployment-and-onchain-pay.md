@@ -1,14 +1,3 @@
----
-name: token-deployment-and-onchain-pay
-description: |
-  Token launch/pay flows: on-chain pay (fiat→crypto / send to address), token info, audit, deployer address context—no full contract IDE in skill set.
-
-  Typical intents: BNB Chain token create/launch; delegated deploy and naming; integrate social links.
-metadata:
-  author: binance-bigdata-team
-  version: "1.0"
----
-
 # Token Deployment and On-chain Pay
 
 ## Overview
@@ -42,13 +31,13 @@ metadata:
 
 ## Plan
 
-> Aligns with `Task_upgrade_advice.md` §8: no one-click deploy REST; pay **pairs → payment → quote → address/network → pre-order → poll**; post-deploy **search + audit + address holdings**.
+> Aligns with `task-upgrade-advice.md` §8: no one-click deploy REST; pay **pairs → payment → quote → address/network → pre-order → poll**; post-deploy **search + audit + address holdings**.
 
 ### Status checks and when you cannot proceed
 
 - **Before planning**: Pay path **fiat/pair, amount, recipient address and network**; before `estimated-quote`, enough funds (optional `assets`).
 - **If on-chain pay fails or limit hit**: (1) Error and limits; (2) Change method/network or amount?; (3) User must confirm address/network before final `pre-order`/`order`.
-- **Cross-task rules**: [Task_upgrade_advice.md](./Task_upgrade_advice.md).
+- **Cross-task rules**: [task-upgrade-advice.md](./task-upgrade-advice.md).
 
 ### A. Structured pipeline (DAG)
 
@@ -78,4 +67,4 @@ metadata:
 
 - **Deploy vs Pay**: compile/deploy not in this API set; Pay moves funds to on-chain addresses.
 - **Credentials**: `BASE_URL`, `CLIENT_ID`, `API_KEY`, RSA PEM; `pre-order` usually needs `address` + `network`.
-- **With `onchain-signals-and-security.md`**: new tokens—ongoing `query-token-audit` + `query-token-info`.
+- **With [onchain-signals-and-security.md](./onchain-signals-and-security.md)**: new tokens—ongoing `query-token-audit` + `query-token-info`.

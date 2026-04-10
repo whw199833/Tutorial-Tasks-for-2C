@@ -1,14 +1,3 @@
----
-name: education-and-learning
-description: |
-  Study plans, reading lists, term definitions, investing literacy, language learning—explain and structure first; optional market skills as teaching examples, not mandatory.
-
-  Typical intents: Equity/research study plans; trading glossary; language learning and expression analysis.
-metadata:
-  author: binance-bigdata-team
-  version: "1.0"
----
-
 # Education and Learning
 
 ## Overview
@@ -36,19 +25,19 @@ metadata:
 | Extension | `skill-creator` | User wants reusable agent skill from material |
 | General | — | Terms and general knowledge—no skill |
 
-**binance-skills-hub**: demos in **`skills/binance-web3/query-token-info`** etc.; `skill-creator` **not** in hub (see README).
+**binance-skills-hub**: demos in **`skills/binance-web3/query-token-info`** etc.; `skill-creator` **not** in hub (see parent [SKILL.md](../SKILL.md) / repo README).
 
 ---
 
 ## Plan
 
-> Aligns with `Task_upgrade_advice.md` §11: **concepts first** → if user wants examples: **search → dynamic → klines**; ranking lesson one `unified/rank`; reusable tutorial → `skill-creator`.
+> Aligns with `task-upgrade-advice.md` §11: **concepts first** → if user wants examples: **search → dynamic → klines**; ranking lesson one `unified/rank`; reusable tutorial → `skill-creator`.
 
 ### Status checks and when you cannot proceed
 
-- **Before planning**: Pure concepts/terms/plans → usually no account; if “size for my money” or “how much to buy”, confirm balance and goals (`trading-execution.md`).
+- **Before planning**: Pure concepts/terms/plans → usually no account; if “size for my money” or “how much to buy”, confirm balance and goals ([trading-execution.md](./trading-execution.md)).
 - **If info thin**: Ask example vs real account; until clear, **only** formulas and conditional examples.
-- **Cross-task rules**: [Task_upgrade_advice.md](./Task_upgrade_advice.md).
+- **Cross-task rules**: [task-upgrade-advice.md](./task-upgrade-advice.md).
 
 ### A. Structured pipeline (DAG)
 

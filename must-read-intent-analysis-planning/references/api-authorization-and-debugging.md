@@ -1,14 +1,3 @@
----
-name: api-authorization-and-debugging
-description: |
-  For API key setup, delegated trading auth, signature failures, sub-account API and futures order issues—connectivity and permission problems—help determine whether the issue is account permissions, key configuration, or client-side calls; within automation limits, pair with balance/position checks.
-
-  Typical intents: Authorize AI to trade with profit targets; API key setup guidance; API config and call failures; sub-account BNB futures with API issues; account auth and signature debugging; trade command failures and signatures; query positions and troubleshoot API auth.
-metadata:
-  author: binance-bigdata-team
-  version: "1.0"
----
-
 # API Authorization and Debugging
 
 ## Overview
@@ -44,13 +33,13 @@ metadata:
 
 ## Plan
 
-> Aligns with `Task_upgrade_advice.md` §2: classify error → permission truth → per-market read path → sub-account/IP → signing environment → supply-chain tools.
+> Aligns with `task-upgrade-advice.md` §2: classify error → permission truth → per-market read path → sub-account/IP → signing environment → supply-chain tools.
 
 ### Status checks and when you cannot proceed
 
 - **Before planning**: Error code / HTTP status; which account owns the key (main/sub); whether “enable trading” is on; whether IP allowlist matches the caller environment.
 - **If read path still fails** (permissions vs business mismatch): (1) State verified layers and failure layer; (2) Ask whether API rights were checked in the app, whether a sub-account key is needed, whether local time is synced; (3) Separate “exchange-side limits” vs “local code/signature”—do not claim “fixed” when unclear.
-- **Cross-task rules**: See [Task_upgrade_advice.md](./Task_upgrade_advice.md) opening.
+- **Cross-task rules**: See [task-upgrade-advice.md](./task-upgrade-advice.md) opening.
 
 ### A. Structured pipeline (DAG)
 
@@ -63,7 +52,7 @@ metadata:
 2. **Open positions**: `derivatives-trading-usds-futures.getPositions` for USDS-M.
 3. **Recent activity**: `spot.getOrders` for habits and open orders.
 
-> **After diagnosis**: Adjust next steps; if underfunded, see **`fuzzy-intent-and-account-onboarding.md`**.
+> **After diagnosis**: Adjust next steps; if underfunded, see **[fuzzy-intent-and-account-onboarding.md](./fuzzy-intent-and-account-onboarding.md)**.
 
 ---
 
@@ -99,7 +88,7 @@ metadata:
 
 ### C. `binance-cli` auth and environment (`binance` skill)
 
-If the user uses **`binance-cli`** (`skills/binance/binance/SKILL.md`), auth and profiles follow **`references/auth.md`**:
+If the user uses **`binance-cli`** ([`binance` CLI entry](../../../binance/binance/SKILL.md)), auth and profiles follow **[`references/auth.md`](../../../binance/binance/references/auth.md)**:
 
 - **Env**: `BINANCE_API_KEY`, `BINANCE_API_SECRET`; optional `BINANCE_API_ENV` (`prod` | `testnet` | `demo`).
 - **Profile**: `binance-cli profile create`, `change`, `view`; `--profile <name>` on commands.
@@ -119,4 +108,4 @@ If the user uses **`binance-cli`** (`skills/binance/binance/SKILL.md`), auth and
 - **Error semantics**: e.g. `-2015` per official docs; `-1022` → HMAC, param order, `recvWindow`, time sync.
 - **P2P SAPI signing**: for `/sapi/v1/c2c/...`, **do not sort** parameters (see `p2p` SKILL).
 - **Read-first**: avoid `POST` orders in triage; use `spot` `POST /api/v3/order/test`, `/fapi/v1/order/test` when needed.
-- **With `account-and-asset-management.md` / `trading-execution.md`**: after permissions OK, assets → former; trading → latter.
+- **With [account-and-asset-management.md](./account-and-asset-management.md) / [trading-execution.md](./trading-execution.md)**: after permissions OK, assets → former; trading → latter.

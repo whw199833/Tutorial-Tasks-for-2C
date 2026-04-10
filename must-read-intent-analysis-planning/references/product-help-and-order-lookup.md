@@ -1,14 +1,3 @@
----
-name: product-help-and-order-lookup
-description: |
-  Product identity (e.g. Clawbot), client access, feature how-to, grid/order lookup; skills only when real order or market lookups are needed.
-
-  Typical intents: Clawbot identity/features; Binance AI iOS access; grid strategy and order status; ETF price impact (overlaps market-data-and-analysis partly).
-metadata:
-  author: binance-bigdata-team
-  version: "1.0"
----
-
 # Product Help and Order Lookup
 
 ## Overview
@@ -24,7 +13,7 @@ metadata:
 
 **Task summary**: Product identity (e.g. Clawbot), client access, where to open a feature, grid/order “how to”—**explanatory** intents; skills only when **real order or market lookups** are needed; else official docs and general agent knowledge.
 
-**Typical intents**: Clawbot identity/features; Binance AI iOS access; grid strategy and order status; ETF price impact (overlaps `market-data-and-analysis.md` partly).
+**Typical intents**: Clawbot identity/features; Binance AI iOS access; grid strategy and order status; ETF price impact (overlaps [market-data-and-analysis.md](./market-data-and-analysis.md) partly).
 
 ---
 
@@ -33,7 +22,7 @@ metadata:
 | Scenario | Skill | Use |
 |----------|--------|-----|
 | Check if order exists | `spot` / `algo` / relevant `derivatives-trading-*` | One skill per market |
-| Same (**CLI**) | `binance` | `binance-cli spot` / `futures-usds` vs REST (`trading-execution.md` §C) |
+| Same (**CLI**) | `binance` | `binance-cli spot` / `futures-usds` vs REST ([trading-execution.md](./trading-execution.md) §C) |
 | Check if market data exists | `query-token-info` | Pair/data availability |
 | Extension | `skill-creator` | User-built agent skills |
 | Security | `skill-vetter` | Third-party skill review |
@@ -42,13 +31,13 @@ metadata:
 
 ## Plan
 
-> Aligns with `Task_upgrade_advice.md` §7: **FAQ before APIs**; only “my order/grid” → read-order flow; confirm spot/futures/algo first.
+> Aligns with `task-upgrade-advice.md` §7: **FAQ before APIs**; only “my order/grid” → read-order flow; confirm spot/futures/algo first.
 
 ### Status checks and when you cannot proceed
 
 - **Before planning**: For “my order”, confirm **spot / futures / algo**; prefer `orderId` or `origClientOrderId`.
 - **If no order or grid mismatch**: (1) State query scope and result; (2) Ask other account?, filled/canceled?, id/symbol/time range?; (3) **Do not** mix `openOrders` across skills before market type is known.
-- **Cross-task rules**: [Task_upgrade_advice.md](./Task_upgrade_advice.md).
+- **Cross-task rules**: [task-upgrade-advice.md](./task-upgrade-advice.md).
 
 ### A. Structured pipeline (DAG)
 
@@ -83,4 +72,4 @@ Read-only cross-check: `binance-cli spot get-open-orders`, `get-order`; `binance
 - **Default zero calls**: one-sentence product answers need no API.
 - **Unknown market → no blind `openOrders`**.
 - **Lookup and trade same skill**: spot orders only `spot` `/api/v3/*`, not `convert` for spot limits.
-- **With `trading-execution.md`**: grid/TP-SL status via `openOrders`, `allOrders`, `algo/*/openOrders` for that market.
+- **With [trading-execution.md](./trading-execution.md)**: grid/TP-SL status via `openOrders`, `allOrders`, `algo/*/openOrders` for that market.
