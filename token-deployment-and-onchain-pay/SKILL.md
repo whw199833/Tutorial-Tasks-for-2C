@@ -1,4 +1,23 @@
+---
+name: token-deployment-and-onchain-pay
+description: |
+  Token launch/pay flows: on-chain pay (fiat→crypto / send to address), token info, audit, deployer address context—no full contract IDE in skill set.
+
+  Typical intents: BNB Chain token create/launch; delegated deploy and naming; integrate social links.
+metadata:
+  author: binance-bigdata-team
+  version: "1.0"
+---
+
 # Token Deployment and On-chain Pay
+
+## Overview
+
+| API | Function | Use Case |
+|-----|----------|----------|
+| Onchain Pay | `onchain-pay-open-api` | Pairs → quote → pre-order → order to address |
+| Post-deploy | `query-token-info`, `query-token-audit` | Search contract + risk check |
+| Deployer wallet | `query-address-info` | Holdings / PnL context |
 
 ## Description
 

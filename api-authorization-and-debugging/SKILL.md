@@ -1,4 +1,24 @@
+---
+name: api-authorization-and-debugging
+description: |
+  For API key setup, delegated trading auth, signature failures, sub-account API and futures order issues—connectivity and permission problems—help determine whether the issue is account permissions, key configuration, or client-side calls; within automation limits, pair with balance/position checks.
+
+  Typical intents: Authorize AI to trade with profit targets; API key setup guidance; API config and call failures; sub-account BNB futures with API issues; account auth and signature debugging; trade command failures and signatures; query positions and troubleshoot API auth.
+metadata:
+  author: binance-bigdata-team
+  version: "1.0"
+---
+
 # API Authorization and Debugging
+
+## Overview
+
+| API | Function | Use Case |
+|-----|----------|----------|
+| Key & account status | `apiRestrictions`, `apiTradingStatus`, `account/status` | Permission and trading-switch truth |
+| Read paths | Spot / USDS-M / COIN-M smoke reads | Isolate which market layer fails |
+| Sub-account + IP | Sub-account list, `ipRestriction` | Sub-key vs IP allowlist alignment |
+| Environment | `healthcheck`, `skill-vetter` | Local hardening vs exchange errors |
 
 ## Description
 
@@ -36,7 +56,7 @@
 
 **Step 0: Prerequisite state check — *MANDATORY***
 
-> **Goal**: Before concrete steps, understand the user’s full state for safer guidance.  
+> **Goal**: Before concrete steps, understand the user’s full state for safer guidance.
 > **Core skills**: `assets`, `spot` (for `getOrders`), `derivatives-trading-usds-futures` (for `getPositions`)
 
 1. **Account assets**: `assets.getUserAssets` across wallets (especially `SPOT`, `FUNDING`).

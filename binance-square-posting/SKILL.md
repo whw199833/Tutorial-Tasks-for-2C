@@ -1,4 +1,23 @@
+---
+name: binance-square-posting
+description: |
+  Draft posts, multilingual posting, scheduling, news scrape-then-publish to Binance Square; `square-post` is the publish core; images, fetch, translation are general agent capabilities.
+
+  Typical intents: Write and publish Square articles; multilingual scheduled posts; news optimized for Square.
+metadata:
+  author: binance-bigdata-team
+  version: "1.0"
+---
+
 # Binance Square Posting
+
+## Overview
+
+| API | Function | Use Case |
+|-----|----------|----------|
+| Publish | `square-post` `content/add` | Post plain text to Binance Square |
+| Market facts | `market-data-and-analysis` / Web3 skills | Optional cited numbers in body |
+| Schedule | User cron / script | No official schedule API in skill |
 
 ## Description
 

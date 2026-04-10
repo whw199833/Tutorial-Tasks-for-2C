@@ -1,8 +1,8 @@
-# Tutorial-Tasks-for-Skills
+# Popular-Intent-Tasks
 
 For **Binance AI Pro (Clawbot)**-style scenarios: map online user intents to **Tasks**, and for each Task list **applicable Skills**, a **structured execution order (DAG)**, and **REST/endpoint quick reference**, so agents pick skills step-by-step instead of flat API calls.
 
-This folder lives under **`skills/Tutorial-Tasks-for-Skills/`** in the **binance-skills-hub** repository. Executable hub skills are **siblings**: **`../binance/`** (REST + `binance-cli` bundle) and **`../binance-web3/`** (market, audit, signals). From the **repository root**, those are `skills/binance/` and `skills/binance-web3/`.
+This folder lives under **`skills/Popular-Intent-Tasks/`** in the **binance-skills-hub** repository. Executable hub skills are **siblings**: **`../binance/`** (REST + `binance-cli` bundle) and **`../binance-web3/`** (market, audit, signals). From the **repository root**, those are `skills/binance/` and `skills/binance-web3/`.
 
 ---
 

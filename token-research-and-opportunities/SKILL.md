@@ -1,4 +1,24 @@
+---
+name: token-research-and-opportunities
+description: |
+  Alts, sectors, new launches, Alpha, risk/reward research; skills supply data, signals, audit, rankings—not definitive investment advice.
+
+  Typical intents: Alt “investment ideas”; new tokens and trends; AI-theme tokens; DeFi inflows; Meme/new launches; specific tickers, entries, position sizing, etc.
+metadata:
+  author: binance-bigdata-team
+  version: "1.0"
+---
+
 # Token Research and Opportunities
+
+## Overview
+
+| API | Function | Use Case |
+|-----|----------|----------|
+| Locate & price | `query-token-info`, `alpha` | Contracts, tickers, Alpha context |
+| Rank & inflow | `crypto-market-rank` | Sector heat, relative strength |
+| Risk & behavior | `query-token-audit`, `trading-signal` | Audit-first + smart-money narrative |
+| RWA | `binance-tokenized-securities-info` | Tokenized equities (isolated lane) |
 
 ## Description
 

@@ -1,4 +1,23 @@
+---
+name: education-and-learning
+description: |
+  Study plans, reading lists, term definitions, investing literacy, language learning—explain and structure first; optional market skills as teaching examples, not mandatory.
+
+  Typical intents: Equity/research study plans; trading glossary; language learning and expression analysis.
+metadata:
+  author: binance-bigdata-team
+  version: "1.0"
+---
+
 # Education and Learning
+
+## Overview
+
+| API | Function | Use Case |
+|-----|----------|----------|
+| Concepts | Agent explanation | Study plans, glossary, structure (often zero API) |
+| Demo data | `query-token-info`, `crypto-market-rank` | Live examples when user asks |
+| Packaging | `skill-creator` | Turn material into reusable agent skills |
 
 ## Description
 

@@ -1,4 +1,24 @@
+---
+name: trading-execution
+description: |
+  Spot / convert / algo / margin / futures / options: place, amend/cancel, query orders, TP/SL, grids, automated trading; data-side support for strategy advice and skill selection on the execution path.
+
+  Typical intents: Quant/short-term strategies; auto-trading and clearing orders; BNB futures entries and strategy; TP/SL; grid trading and order monitoring; DOGE/FDUSD grids; order status; long BTC execution, etc.
+metadata:
+  author: binance-bigdata-team
+  version: "1.0"
+---
+
 # Trading Execution
+
+## Overview
+
+| API | Function | Use Case |
+|-----|----------|----------|
+| Spot / convert / algo | REST `/api/v3`, SAPI convert, algo | Order lifecycle per cash/algo market |
+| USDS-M / COIN-M / options | `fapi` / `dapi` / `eapi` | Futures and options execution |
+| Portfolio margin | PM REST (`papi`) | Unified margin flows when in scope |
+| `binance-cli` | `binance` skill (spot / convert / futures-usds) | CLI cross-check where enabled |
 
 ## Description
 

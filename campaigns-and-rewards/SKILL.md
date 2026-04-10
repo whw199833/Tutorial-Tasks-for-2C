@@ -1,4 +1,23 @@
+---
+name: campaigns-and-rewards
+description: |
+  Platform promos, campaigns, Beta incentives, campaign-result discussion; skills do not guarantee live campaign page text—use `alpha` and related token APIs as supplement; rules rely on website, announcements, and agent KB freshness.
+
+  Typical intents: Recent Binance campaigns/promos; Beta incentives; campaign results and naming/social ideas.
+metadata:
+  author: binance-bigdata-team
+  version: "1.0"
+---
+
 # Campaigns and Rewards
+
+## Overview
+
+| API | Function | Use Case |
+|-----|----------|----------|
+| Campaign rules | Official site / app (no full-text API here) | Authoritative terms and eligibility |
+| Token context | `alpha`, `query-token-info`, `crypto-market-rank` | Named tickers and price context |
+| Self-check (optional) | `getUserAsset`, order history | Rough volume hint—not campaign accounting |
 
 ## Description
 

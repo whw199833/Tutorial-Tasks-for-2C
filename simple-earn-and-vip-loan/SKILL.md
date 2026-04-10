@@ -1,4 +1,24 @@
+---
+name: simple-earn-and-vip-loan
+description: |
+  Simple Earn subscribe/redeem and VIP Loan flows; distinct from plain spot balance—yield and borrow product paths with `assets` checks.
+
+  Typical intents: Subscribe/redeem, APY, fixed terms, borrow rates, VIP loan limits and steps (may overlap account-asset intents—this task stresses product type).
+metadata:
+  author: binance-bigdata-team
+  version: "1.0"
+---
+
 # Simple Earn and VIP Loan
+
+## Overview
+
+| API | Function | Use Case |
+|-----|----------|----------|
+| Simple Earn | `simple-earn` REST | Lists, preview, subscribe, redeem |
+| VIP Loan | `vip-loan` REST | Borrow, repay, renew, ongoing orders |
+| Balances | `assets` | Before/after wallet checks |
+| Margin borrow | `margin-trading` | Separate from VIP loan product |
 
 ## Description
 

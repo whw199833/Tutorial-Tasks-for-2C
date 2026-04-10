@@ -1,4 +1,24 @@
+---
+name: product-help-and-order-lookup
+description: |
+  Product identity (e.g. Clawbot), client access, feature how-to, grid/order lookup; skills only when real order or market lookups are needed.
+
+  Typical intents: Clawbot identity/features; Binance AI iOS access; grid strategy and order status; ETF price impact (overlaps market-data-and-analysis partly).
+metadata:
+  author: binance-bigdata-team
+  version: "1.0"
+---
+
 # Product Help and Order Lookup
+
+## Overview
+
+| API | Function | Use Case |
+|-----|----------|----------|
+| Spot / algo | `spot`, algo SAPI | Open orders, historical order, grid-style lookup |
+| Futures | `derivatives-trading-*` REST | USDS-M / COIN-M positions and orders |
+| `binance-cli` | `binance` skill | Optional read-only cross-check |
+| Web3 symbol | `query-token-info` | Verify pair/token exists before lookups |
 
 ## Description
 

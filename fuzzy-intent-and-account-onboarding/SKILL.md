@@ -1,4 +1,23 @@
+---
+name: fuzzy-intent-and-account-onboarding
+description: |
+  For vague first messages or broad intent (e.g. icebreakers and broad “what can you do” / onboarding asks).
+
+  Typical intents: What can you do; how do I start as a newbie; teach me to make money; what features do you have; hello; other unfocused first messages.
+metadata:
+  author: binance-bigdata-team
+  version: "1.0"
+---
+
 # Fuzzy intent and account onboarding
+
+## Overview
+
+| API | Function | Use Case |
+|-----|----------|----------|
+| Balances | `assets.getUserAssets` | Route cold-start vs funded users |
+| On-ramp | `p2p`, `fiat` | Empty-account deposit / buy guidance |
+| Next steps | Guided spot / earn / bots | High-level first actions after snapshot |
 
 ## 1. Description
 

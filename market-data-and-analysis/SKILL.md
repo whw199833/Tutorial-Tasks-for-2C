@@ -1,4 +1,24 @@
+---
+name: market-data-and-analysis
+description: |
+  Real-time prices, gainers/losers, heat, ETF/macro data context, klines/volume/rankings for technical discussion—query and rank, not placing orders on behalf of the user.
+
+  Typical intents: BTC live price; top/bottom alts; volatility analysis; Bitcoin move reasons (news via agent knowledge; skills supply market data); smart money and market data (with trading-signal).
+metadata:
+  author: binance-bigdata-team
+  version: "1.0"
+---
+
 # Market Data and Analysis
+
+## Overview
+
+| API | Function | Use Case |
+|-----|----------|----------|
+| Token search & meta | `query-token-info` | Resolve symbol/contract; klines and dynamic fields |
+| Rankings | `crypto-market-rank` | Broad market scan → Top N |
+| Smart money / meme | `trading-signal`, `meme-rush` | Narrative and lane cross-check |
+| RWA | `binance-tokenized-securities-info` | Tokenized equities (separate workflow) |
 
 ## Description
 

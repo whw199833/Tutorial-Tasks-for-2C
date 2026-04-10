@@ -1,4 +1,24 @@
+---
+name: onchain-signals-and-security
+description: |
+  BSC-style patterns, smart-money signals, token audit, address holdings; data/signal parts of monitoring/alert intents (scheduling stays in user env).
+
+  Typical intents: BSC transfer lookup; smart-money monitoring/alerts; scheduled monitoring/push; buy-signal notifications; token audit; smart-money + token analysis.
+metadata:
+  author: binance-bigdata-team
+  version: "1.0"
+---
+
 # On-chain Signals and Security
+
+## Overview
+
+| API | Function | Use Case |
+|-----|----------|----------|
+| Token audit | `query-token-audit` | Contract risk before relying on signals |
+| Smart money | `trading-signal` | Buy/sell signal lists and filters |
+| Address holdings | `query-address-info` | Wallet positions; monitor-style polling |
+| Token / meme context | `query-token-info`, `meme-rush` | Price context and meme lane |
 
 ## Description
 

@@ -1,4 +1,24 @@
+---
+name: account-and-asset-management
+description: |
+  Help users query main- and sub-account assets, reconcile balances and distribution, track deposit/withdrawal/transfer status, and support sub-account–related questions and operational guidance.
+
+  Typical intents: Binance account assets and trading status; main-account balance confirmation; delegated-operation authorization and fund checks; balance and asset distribution; fund flow tracing; account opening and trading questions; account feature closure and refund inquiries (informational).
+metadata:
+  author: binance-bigdata-team
+  version: "1.0"
+---
+
 # Account and Asset Management
+
+## Overview
+
+| API | Function | Use Case |
+|-----|----------|----------|
+| Wallet balances | `getUserAsset`, wallet summary | Spot and funding snapshot |
+| Ledger trace | Deposit / withdraw / universal transfer history | Reconcile “where did funds go” |
+| Sub-account | List, assets, `universalTransfer` | Master–sub scope and moves |
+| Fiat rails | Fiat SAPI orders + public BAPI capabilities | Fiat channels and account orders |
 
 ## Description
 
@@ -35,7 +55,7 @@
 
 **Step 0: Prerequisite state check — *MANDATORY***
 
-> **Goal**: Before concrete steps, understand the user’s current state for safer, personalized guidance.  
+> **Goal**: Before concrete steps, understand the user’s current state for safer, personalized guidance.
 > **Core skills**: `assets`, `spot` (for `getOrders`), `derivatives-trading-usds-futures` (for `getPositions`)
 
 1. **Account assets**: Call `assets.getUserAssets`; review available and total value per wallet (especially spot `SPOT` and funding `FUNDING`).
