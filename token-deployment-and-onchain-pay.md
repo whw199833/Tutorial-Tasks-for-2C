@@ -23,13 +23,13 @@
 
 ## Plan
 
-> Aligns with `Task_upgrade_advice.en.md` §8: no one-click deploy REST; pay **pairs → payment → quote → address/network → pre-order → poll**; post-deploy **search + audit + address holdings**.
+> Aligns with `Task_upgrade_advice.md` §8: no one-click deploy REST; pay **pairs → payment → quote → address/network → pre-order → poll**; post-deploy **search + audit + address holdings**.
 
 ### Status checks and when you cannot proceed
 
 - **Before planning**: Pay path **fiat/pair, amount, recipient address and network**; before `estimated-quote`, enough funds (optional `assets`).
 - **If on-chain pay fails or limit hit**: (1) Error and limits; (2) Change method/network or amount?; (3) User must confirm address/network before final `pre-order`/`order`.
-- **Cross-task rules**: [Task_upgrade_advice.en.md](./Task_upgrade_advice.en.md).
+- **Cross-task rules**: [Task_upgrade_advice.md](./Task_upgrade_advice.md).
 
 ### A. Structured pipeline (DAG)
 
@@ -59,4 +59,4 @@
 
 - **Deploy vs Pay**: compile/deploy not in this API set; Pay moves funds to on-chain addresses.
 - **Credentials**: `BASE_URL`, `CLIENT_ID`, `API_KEY`, RSA PEM; `pre-order` usually needs `address` + `network`.
-- **With `onchain-signals-and-security.en.md`**: new tokens—ongoing `query-token-audit` + `query-token-info`.
+- **With `onchain-signals-and-security.md`**: new tokens—ongoing `query-token-audit` + `query-token-info`.

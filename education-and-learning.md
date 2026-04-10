@@ -23,13 +23,13 @@
 
 ## Plan
 
-> Aligns with `Task_upgrade_advice.en.md` §11: **concepts first** → if user wants examples: **search → dynamic → klines**; ranking lesson one `unified/rank`; reusable tutorial → `skill-creator`.
+> Aligns with `Task_upgrade_advice.md` §11: **concepts first** → if user wants examples: **search → dynamic → klines**; ranking lesson one `unified/rank`; reusable tutorial → `skill-creator`.
 
 ### Status checks and when you cannot proceed
 
-- **Before planning**: Pure concepts/terms/plans → usually no account; if “size for my money” or “how much to buy”, confirm balance and goals (`trading-execution.en.md`).
+- **Before planning**: Pure concepts/terms/plans → usually no account; if “size for my money” or “how much to buy”, confirm balance and goals (`trading-execution.md`).
 - **If info thin**: Ask example vs real account; until clear, **only** formulas and conditional examples.
-- **Cross-task rules**: [Task_upgrade_advice.en.md](./Task_upgrade_advice.en.md).
+- **Cross-task rules**: [Task_upgrade_advice.md](./Task_upgrade_advice.md).
 
 ### A. Structured pipeline (DAG)
 

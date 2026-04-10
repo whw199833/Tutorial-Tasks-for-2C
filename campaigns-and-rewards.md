@@ -22,13 +22,13 @@
 
 ## Plan
 
-> Aligns with `Task_upgrade_advice.en.md` §9: **rules from website** → optional token price proof → optional user self-check volume; discussion has no API.
+> Aligns with `Task_upgrade_advice.md` §9: **rules from website** → optional token price proof → optional user self-check volume; discussion has no API.
 
 ### Status checks and when you cannot proceed
 
 - **Before planning**: Rules from official site; “am I qualified?” → optional `getUserAsset` + order window with **disclaimer** that stats may not match campaign accounting.
 - **If API cannot match task progress**: (1) API limits; (2) Ask user to check in-app campaign page; (3) **Do not** invent completed/incomplete tasks.
-- **Cross-task rules**: [Task_upgrade_advice.en.md](./Task_upgrade_advice.en.md).
+- **Cross-task rules**: [Task_upgrade_advice.md](./Task_upgrade_advice.md).
 
 ### A. Structured pipeline (DAG)
 
@@ -43,7 +43,7 @@
 
 1. **Statement**: no standalone “campaign full text” API here—website + app authoritative.
 2. **Token price (optional)**: `alpha` token list; Web3 `unified/rank/list/ai` or `query-token-info` `search/ai`.
-3. **Trading-task style**: balances `POST /sapi/v3/asset/getUserAsset`; orders per `trading-execution.en.md`.
+3. **Trading-task style**: balances `POST /sapi/v3/asset/getUserAsset`; orders per `trading-execution.md`.
 4. **Discussion**: no REST.
 
 ---

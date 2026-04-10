@@ -24,13 +24,13 @@
 
 ## Plan
 
-> Aligns with `Task_upgrade_advice.en.md` §2: classify error → permission truth → per-market read path → sub-account/IP → signing environment → supply-chain tools.
+> Aligns with `Task_upgrade_advice.md` §2: classify error → permission truth → per-market read path → sub-account/IP → signing environment → supply-chain tools.
 
 ### Status checks and when you cannot proceed
 
 - **Before planning**: Error code / HTTP status; which account owns the key (main/sub); whether “enable trading” is on; whether IP allowlist matches the caller environment.
 - **If read path still fails** (permissions vs business mismatch): (1) State verified layers and failure layer; (2) Ask whether API rights were checked in the app, whether a sub-account key is needed, whether local time is synced; (3) Separate “exchange-side limits” vs “local code/signature”—do not claim “fixed” when unclear.
-- **Cross-task rules**: See [Task_upgrade_advice.en.md](./Task_upgrade_advice.en.md) opening.
+- **Cross-task rules**: See [Task_upgrade_advice.md](./Task_upgrade_advice.md) opening.
 
 ### A. Structured pipeline (DAG)
 
@@ -43,7 +43,7 @@
 2. **Open positions**: `derivatives-trading-usds-futures.getPositions` for USDS-M.
 3. **Recent activity**: `spot.getOrders` for habits and open orders.
 
-> **After diagnosis**: Adjust next steps; if underfunded, see **`fuzzy-intent-and-account-onboarding.en.md`**.
+> **After diagnosis**: Adjust next steps; if underfunded, see **`fuzzy-intent-and-account-onboarding.md`**.
 
 ---
 
@@ -99,4 +99,4 @@ If the user uses **`binance-cli`** (`skills/binance/binance/SKILL.md`), auth and
 - **Error semantics**: e.g. `-2015` per official docs; `-1022` → HMAC, param order, `recvWindow`, time sync.
 - **P2P SAPI signing**: for `/sapi/v1/c2c/...`, **do not sort** parameters (see `p2p` SKILL).
 - **Read-first**: avoid `POST` orders in triage; use `spot` `POST /api/v3/order/test`, `/fapi/v1/order/test` when needed.
-- **With `account-and-asset-management.en.md` / `trading-execution.en.md`**: after permissions OK, assets → former; trading → latter.
+- **With `account-and-asset-management.md` / `trading-execution.md`**: after permissions OK, assets → former; trading → latter.

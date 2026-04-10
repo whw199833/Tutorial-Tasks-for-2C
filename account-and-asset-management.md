@@ -6,7 +6,7 @@
 
 **Typical intents** (from intent taxonomy): Binance account assets and trading status; main-account balance confirmation; delegated-operation authorization and fund checks; balance and asset distribution; fund flow tracing; account opening and trading questions; account feature closure and refund inquiries (informational).
 
-**Skill boundaries**: Assets and transfers → **`assets`**; sub-accounts → **`sub-account`**; fiat rails → **`fiat`** as secondary. If the user also asks about contracts or unified margin, bridge to derivative skills in **`trading-execution.en.md`**.
+**Skill boundaries**: Assets and transfers → **`assets`**; sub-accounts → **`sub-account`**; fiat rails → **`fiat`** as secondary. If the user also asks about contracts or unified margin, bridge to derivative skills in **`trading-execution.md`**.
 
 ---
 
@@ -23,13 +23,13 @@
 
 ## Plan
 
-> Aligns with `Task_upgrade_advice.en.md` §1: scope → snapshot → ledger alignment → sub-account/fiat branches → consolidated output.
+> Aligns with `Task_upgrade_advice.md` §1: scope → snapshot → ledger alignment → sub-account/fiat branches → consolidated output.
 
 ### Status checks and when you cannot proceed
 
 - **Before planning**: Confirm scope (main vs funding vs sub-account vs fiat) and whether the **time window** for the issue is clear.
 - **If ledgers disagree with snapshot or APIs lack permission**: (1) State what was checked and what is missing; (2) Ask whether other wallets/sub-accounts exist, or whether the user can provide a txId or in-app order time; (3) Do **not** invent “where funds went”; for policy/account-closure topics, point to the website and support.
-- **Cross-task rules**: See the opening of [Task_upgrade_advice.en.md](./Task_upgrade_advice.en.md) for global flow and “ask the user” guidance.
+- **Cross-task rules**: See the opening of [Task_upgrade_advice.md](./Task_upgrade_advice.md) for global flow and “ask the user” guidance.
 
 ### A. Structured pipeline (DAG)
 
@@ -42,13 +42,13 @@
 2. **Open positions**: Call `derivatives-trading-usds-futures.getPositions`; check USDS-M positions (side, size, unrealized PnL).
 3. **Recent trades and open orders**: Call `spot.getOrders`; note trading habits (preferred pairs) and any open orders.
 
-> **After diagnosis**: Adjust downstream steps. If the user already has related exposure, plan around it; if funds are insufficient, see **`fuzzy-intent-and-account-onboarding.en.md`** for funding guidance.
+> **After diagnosis**: Adjust downstream steps. If the user already has related exposure, plan around it; if funds are insufficient, see **`fuzzy-intent-and-account-onboarding.md`** for funding guidance.
 
 ---
 
 | Step | Action |
 |------|--------|
-| **Scope** | Separate: main spot only / includes Funding / includes sub-account / includes fiat orders / includes contracts or PM (latter → `trading-execution.en.md`). |
+| **Scope** | Separate: main spot only / includes Funding / includes sub-account / includes fiat orders / includes contracts or PM (latter → `trading-execution.md`). |
 | **Balance snapshot** | `getUserAsset` or `wallet/balance` → answering “how much X left” may stop here; “where did money go” → ledgers. |
 | **Ledger alignment** | In the time window: `deposit/hisrec`, `withdraw/history`, `asset/transfer` (GET) **cross-check** with snapshot (large moves should match records). |
 | **Sub-account** | Only when sub-account email or master–sub transfer is explicit: `sub-account/list` → `assets` → `universalTransfer` history if needed. |
@@ -100,4 +100,4 @@ HTTP paths and parameters follow the `assets`, `sub-account`, and `fiat` **SKILL
 - **REST assets before sub-account**: Main-account balance alone can use `getUserAsset`; call sub-account `list` / `assets` / `universalTransfer` only when email or transfers are in scope.
 - **Public fiat BAPI vs SAPI**: Quotes/channels → `bapi/fiat/.../agent/*`; **account-level** fiat orders → `GET /sapi/v1/fiat/orders`, `/sapi/v1/fiat/payments`.
 - **On-chain / mainnet**: Skills may require user `CONFIRM` before mainnet actions; delegated-operation disclaimers apply.
-- **With `trading-execution.en.md`**: Post-trade order lookup is not this task; spot orders use `spot` `/api/v3/order`, `/api/v3/openOrders`.
+- **With `trading-execution.md`**: Post-trade order lookup is not this task; spot orders use `spot` `/api/v3/order`, `/api/v3/openOrders`.

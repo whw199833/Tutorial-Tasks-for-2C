@@ -38,17 +38,17 @@
 2. **Positions**: `derivatives-trading-usds-futures.getPositions`.
 3. **Orders**: `spot.getOrders` for habits and open orders.
 
-> **After diagnosis**: If underfunded, **`fuzzy-intent-and-account-onboarding.en.md`**.
+> **After diagnosis**: If underfunded, **`fuzzy-intent-and-account-onboarding.md`**.
 
 ---
 
-> Aligns with `Task_upgrade_advice.en.md` §3: **single market lock** → read-only orders/positions → precision/rules before writes → algo sub-order tracking; prices from `market-data-and-analysis.en.md`—do not use order APIs as price feeds.
+> Aligns with `Task_upgrade_advice.md` §3: **single market lock** → read-only orders/positions → precision/rules before writes → algo sub-order tracking; prices from `market-data-and-analysis.md`—do not use order APIs as price feeds.
 
 ### Status checks and when you cannot proceed
 
 - **Before writes**: **Single market** locked; **available balance** and **margin**; **open orders and positions** (incl. algo, grids); avoid in-flight conflicts.
 - **If under-margined or missing params**: (1) State gap and ceiling; (2) Ask about deposit/transfer, cancel/reduce, smaller size or leverage; (3) **Do not** place orders or confirm convert for the user until confirmed.
-- **Cross-task rules**: [Task_upgrade_advice.en.md](./Task_upgrade_advice.en.md).
+- **Cross-task rules**: [Task_upgrade_advice.md](./Task_upgrade_advice.md).
 
 ### A. Structured pipeline (DAG)
 
@@ -58,7 +58,7 @@
 | **Read-only** | `openOrders` → `order` (by id) → futures `positionRisk`; CLI e.g. `get-open-orders`, `query-order`, `position-information-v-3`; cancel/amend after confirm. |
 | **Writes** | Spot: `exchangeInfo`/`myFilters` then `order`; futures: `leverage`/`marginType` if needed; convert: `exchangeInfo` → `getQuote` → confirm → `acceptQuote`. CLI: §C; **prod requires user `CONFIRM`**. |
 | **Algo** | After place: `algo/*/openOrders` + `subOrders`. |
-| **Market data** | From `market-data-and-analysis.en.md`. |
+| **Market data** | From `market-data-and-analysis.md`. |
 
 ### B. REST quick reference
 
@@ -93,5 +93,5 @@ Install via `@binance/binance-cli`; **`CONFIRM`** for prod; `algo`, `p2p`, margi
 - **`newClientOrderId`**: `agent-` prefix per spot SKILL.
 - **USDS vs COIN**: no `fapi`/`dapi` mix; options use `eapi`.
 - **convert vs spot**: one-tap quote+fill vs limit book depth.
-- **With `market-data-and-analysis.en.md`**: on-chain/BAPI there; this task is exchange order APIs.
+- **With `market-data-and-analysis.md`**: on-chain/BAPI there; this task is exchange order APIs.
 - **CLI vs REST**: no double-submit on same trade (read-only cross-check OK).

@@ -18,19 +18,19 @@
 | Secondary | `binance-tokenized-securities-info` | Tokenized equities (RWA) |
 | Secondary | `meme-rush` | Meme launch tracking |
 
-**binance-skills-hub**: listed skills live under **`skills/binance-web3/<skill-name>/SKILL.md`**; no direct mapping to **`binance-cli`**—spot/USDS orders → `trading-execution.en.md`.
+**binance-skills-hub**: listed skills live under **`skills/binance-web3/<skill-name>/SKILL.md`**; no direct mapping to **`binance-cli`**—spot/USDS orders → `trading-execution.md`.
 
 ---
 
 ## Plan
 
-> Aligns with `Task_upgrade_advice.en.md` §4: **broad then narrow** — rankings/themes → Top N → `meta`+`dynamic` → **multi-interval klines** for 1–3 symbols → optional inflow/smart money; RWA separate workflow; macro via agent.
+> Aligns with `Task_upgrade_advice.md` §4: **broad then narrow** — rankings/themes → Top N → `meta`+`dynamic` → **multi-interval klines** for 1–3 symbols → optional inflow/smart money; RWA separate workflow; macro via agent.
 
 ### Status checks and when you cannot proceed
 
-- **Before planning**: Pure market/teaching klines → **usually no** account state; if intent includes “how much can I buy with my account” or execution-tied advice, confirm balance/orders via `account-and-asset-management.en.md` / `trading-execution.en.md`.
+- **Before planning**: Pure market/teaching klines → **usually no** account state; if intent includes “how much can I buy with my account” or execution-tied advice, confirm balance/orders via `account-and-asset-management.md` / `trading-execution.md`.
 - **If APIs fail or pair missing**: State gap; ask for symbol/chain/keyword for `search`; **do not** assume fill price or place orders.
-- **Cross-task rules**: [Task_upgrade_advice.en.md](./Task_upgrade_advice.en.md).
+- **Cross-task rules**: [Task_upgrade_advice.md](./Task_upgrade_advice.md).
 
 ### A. Structured pipeline (DAG)
 
@@ -39,7 +39,7 @@
 > **Core skills**: `assets`, `spot`, `derivatives-trading-usds-futures` — use when user ties analysis to account or execution.
 
 1. `assets.getUserAssets`; 2. `getPositions`; 3. `spot.getOrders`.  
-> If underfunded: **`fuzzy-intent-and-account-onboarding.en.md`**.
+> If underfunded: **`fuzzy-intent-and-account-onboarding.md`**.
 
 ---
 
@@ -75,7 +75,7 @@ flowchart LR
 
 ### C. Scheduled market pulls (Python / Shell)
 
-For **scheduled** rank/klines/price snapshots (no orders), default to user env **Shell + cron** or **Python** polling §B `GET`/`POST` (`curl` / `requests`), same convention as [onchain-signals-and-security.en.md](./onchain-signals-and-security.en.md) **§B.C**; thresholds/alerts in user script.
+For **scheduled** rank/klines/price snapshots (no orders), default to user env **Shell + cron** or **Python** polling §B `GET`/`POST` (`curl` / `requests`), same convention as [onchain-signals-and-security.md](./onchain-signals-and-security.md) **§B.C**; thresholds/alerts in user script.
 
 ---
 
