@@ -1,4 +1,4 @@
-# Tutorial-Tasks-for-2C
+# Tutorial-Tasks-for-Skills
 
 面向 **Binance AI Pro（Clawbot）** 类场景：将线上用户意图抽象为若干 **Task**，并为每类 Task 说明 **适用 Skills**、**结构化执行顺序（DAG）** 与 **REST/接口速查**，便于 Agent 按步骤选 Skill、少平铺调用。
 
