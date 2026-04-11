@@ -1,39 +1,20 @@
 # Token Research and Opportunities
 
-## Overview
-
-| API | Function | Use Case |
-|-----|----------|----------|
-| Locate & price | `query-token-info`, `alpha` | Contracts, tickers, Alpha context |
-| Rank & inflow | `crypto-market-rank` | Sector heat, relative strength |
-| Risk & behavior | `query-token-audit`, `trading-signal` | Audit-first + smart-money narrative |
-| RWA | `binance-tokenized-securities-info` | Tokenized equities (isolated lane) |
-
 ## Description
 
 **Task summary**: Alts and sectors (AI, DeFi, Meme), new launches and Alpha, risk/reward and entry talk—**research** intents; skills supply **data, signals, audit, rankings**; agent supplies framework and risk wording, **not** definitive investment advice.
 
 **Typical intents**: Alt “investment ideas”; new tokens and trends; AI-theme tokens; DeFi inflows; Meme/new launches; specific tickers, entries, position sizing, etc.
 
----
-
-## Recommended skill mix
-
-| Role | Skill | Use |
-|------|--------|-----|
-| Primary | `query-token-info` | Price, volume, klines |
-| Primary | `crypto-market-rank` | Sector heat, relative strength |
-| Primary | `trading-signal` | Smart-money side |
-| Primary | `query-token-audit` | Contract/rug risk |
-| Context | `meme-rush` | Meme/new launch |
-| Context | `alpha` | Binance Alpha tokens |
-| Context | `binance-tokenized-securities-info` | RWA / tokenized equities |
-
-**binance-skills-hub**: web3 skills under **`skills/binance-web3/`**; `alpha` → **`skills/binance/alpha/`**; execution → **[trading-execution.md](./trading-execution.md)** (incl. **`binance` CLI**).
-
----
+**Hub**: Web3 skills by **`name`** (`query-token-info`, `crypto-market-rank`, `trading-signal`, `query-token-audit`, `meme-rush`, `binance-tokenized-securities-info`, …); CEX **`alpha`**; execution → [trading-execution.md](./trading-execution.md) (incl. **`binance`** / **`binance-cli`**).
 
 ## Plan
+
+### Step 1 — Account state (*MANDATORY*, always first)
+
+Before **entry / sizing / “how much should I buy”** research, confirm **`assets`** (available balance) and, if relevant, **`spot`** / **`derivatives-trading-usds-futures`** for positions and open orders.
+
+- **If funds cannot support the position they describe**: **Proactively say so** and stop short of executable sizing; point to [trading-execution.md](./trading-execution.md) / **[fuzzy-intent-and-account-onboarding.md](./fuzzy-intent-and-account-onboarding.md)**. Pure narrative research with **no** account tie → still run Step 1 **when** they ask about real money.
 
 > Aligns with `task-upgrade-advice.md` §6: **locate → audit → market position → behavior/narrative**; RWA separate; close with **facts + assumptions**; orders → [trading-execution.md](./trading-execution.md).
 
@@ -44,10 +25,6 @@
 - **Cross-task rules**: [task-upgrade-advice.md](./task-upgrade-advice.md).
 
 ### A. Structured pipeline (DAG)
-
-**Step 0: Prerequisite state check — *MANDATORY*** when user ties research to account or execution.
-
----
 
 | Step | Action |
 |------|--------|
@@ -60,17 +37,8 @@
 
 ### B. Endpoint quick reference
 
-1. **Locate**: `query-token-info` `search/ai`; Alpha: `alpha-trade` exchange-info, ticker, klines, CEX alpha token list per SKILL.
+1. **Locate**: `query-token-info` `search/ai`; Alpha: `alpha-trade` exchange-info, ticker, klines, CEX alpha token list per **`alpha`** skill.
 2. **Market/sector**: `crypto-market-rank` `unified/rank/list/ai`; inflow `inflow/rank/query/ai` (`tagType: 2`).
-3. **Signals/risk**: `query-token-audit`; `trading-signal`; Meme ranks per SKILL.
-4. **RWA**: `binance-tokenized-securities-info` workflow (API 1→6 per SKILL).
+3. **Signals/risk**: `query-token-audit`; `trading-signal`; Meme ranks per **`meme-rush`** (or other Web3 skills by **`name`** as needed).
+4. **RWA**: `binance-tokenized-securities-info` workflow (API 1→6 per **`binance-tokenized-securities-info`** skill).
 5. **Orders**: [trading-execution.md](./trading-execution.md) only—no trade REST in this task.
-
----
-
-## Usage guide
-
-- **API fields are not orders**: do not turn JSON into “must buy/sell”.
-- **Audit conflicts**: prefer dedicated `query-token-audit` over generic `auditInfo`.
-- **Research output**: cite fields (`riskLevelEnum`, `inflow`, `percentChange24h`); do not invent metrics.
-- **Alpha**: use `bapi/defi/v1/public/alpha-trade/*` and CEX Alpha list—do not confuse with Web3 `rankType=20` “Alpha” leaderboard dimension.

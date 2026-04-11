@@ -1,34 +1,20 @@
 # Campaigns and Rewards
 
-## Overview
-
-| API | Function | Use Case |
-|-----|----------|----------|
-| Campaign rules | Official site / app (no full-text API here) | Authoritative terms and eligibility |
-| Token context | `alpha`, `query-token-info`, `crypto-market-rank` | Named tickers and price context |
-| Self-check (optional) | `getUserAsset`, order history | Rough volume hint—not campaign accounting |
-
 ## Description
 
 **Task summary**: Platform promos, campaigns, Beta incentives, campaign-result discussion; skills **do not** guarantee live campaign page text—use `alpha` and related token APIs as **supplement**; rules rely on website, announcements, and agent KB freshness.
 
 **Typical intents**: Recent Binance campaigns/promos; Beta incentives; campaign results and naming/social ideas.
 
----
-
-## Recommended skill mix
-
-| Role | Skill | Use |
-|------|--------|-----|
-| Context | `alpha` | Alpha-token/campaign context when applicable |
-| General | `query-token-info` / `crypto-market-rank` | Price context for named campaign tokens |
-| Boundary | — | Rules follow official pages |
-
-**binance-skills-hub**: `alpha` → **`skills/binance/alpha/SKILL.md`**; market supplements → **`skills/binance-web3/`**.
-
----
+**Hub**: **`alpha`** on CEX; market supplements via Web3 skills by **`name`** (e.g. **`query-token-info`**, **`crypto-market-rank`**).
 
 ## Plan
+
+### Step 1 — Account state (*MANDATORY*, always first)
+
+Before suggesting the user **“trade to hit volume”** or **join tasks that need balance**, check **`assets`** (available funds) and whether **open orders / positions** could realistically support that path.
+
+- **If their account clearly cannot support required volume or tasks**: **Proactively say so** (insufficient balance, need deposit/transfer) **before** cheerleading the campaign—**do not** assume they can complete volume tasks.
 
 > Aligns with `task-upgrade-advice.md` §9: **rules from website** → optional token price proof → optional user self-check volume; discussion has no API.
 
@@ -53,10 +39,3 @@
 2. **Token price (optional)**: `alpha` token list; Web3 `unified/rank/list/ai` or `query-token-info` `search/ai`.
 3. **Trading-task style**: balances `POST /sapi/v3/asset/getUserAsset`; orders per [trading-execution.md](./trading-execution.md).
 4. **Discussion**: no REST.
-
----
-
-## Usage guide
-
-- **APIs cannot replace terms**: price proves ticker/in-list, not reward eligibility.
-- **Default zero requests**: answer rules + links first, then maybe market data.

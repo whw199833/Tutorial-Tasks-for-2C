@@ -1,10 +1,10 @@
 # Task upgrade advice — default execution DAG (overview)
 
-This document summarizes the **default structured pipelines** referenced in each intent **Plan §A**. Concrete HTTP paths and parameters follow each intent **§B** and the matching `SKILL.md` in `binance-skills-hub`.
+## Description
 
----
+This document summarizes the **default structured pipelines** referenced in each intent **Plan §A**. Concrete HTTP paths and parameters follow each intent **§B** and the hub skill **`name`** you invoke (per that skill’s own HTTP quick reference—not linked here).
 
-## Pre-planning: confirm account state (cross-task)
+### Pre-planning: confirm account state (cross-task)
 
 Before **planning** a user task (building an execution plan or giving trading/product advice), the agent **should first** confirm the user’s current account state, then decide whether the request is supportable or actionable:
 
@@ -12,17 +12,19 @@ Before **planning** a user task (building an execution plan or giving trading/pr
 - **Open and in-flight orders**: Open orders, algo orders, grids, conditional orders, etc.; avoid conflicts with existing positions or duplicate orders.
 - **Other relevant state**: Earn/loan locks, freezes, sub-account and transfer prerequisites; link to [account-and-asset-management.md](./account-and-asset-management.md) and each intent §A when needed.
 
-If tools cannot fetch the above, **tell the user what is missing** or ask them to self-check before giving a plan; **do not** propose executable trade paths from price alone or assumed balances.
+If tools cannot fetch the above, **tell the user what is missing** or ask them to self-check before giving a plan; **do not** propose executable trade paths from price alone or assumed balances. Whenever tools **do** return balances, if the user’s **available funds cannot support** the requested trade / earn / pay / borrow action, **proactively say so first** (shortfall, wrong wallet, need transfer)—**do not** continue as if the action were already feasible.
 
-### When state is unknown or insufficient: suggested user dialog
+#### When state is unknown or insufficient: suggested user dialog
 
 1. **Explain**: Briefly state known facts and gaps (e.g. insufficient balance, market type unclear, API permission missing, campaign metrics may differ).
 2. **Ask**: Offer options or confirmations (deposited/transferred?, cancel an order?, provide order id/symbol/time range?, verify campaign progress or API rights in the app?).
 3. **Hold line**: Until the user supplements or self-checks, **do not advance** irreversible actions (orders, transfers, subscriptions, borrows, on-chain pay). You may give **conditional** guidance (“if balance is X and there is no conflicting open order, then …”).
 
-Each intent **Plan** adds intent-specific detail; the table below is the default pipeline summary.
+## Plan
 
----
+**Every intent Plan** must treat **account state** as **Step 1** (balances, **available** funds, margin, open orders, earn/loan locks where relevant): confirm the user **can** support the intended action (**trade**, **earn / borrow**, **transfer**, **on-chain pay**, etc.). If not, **proactively prompt** before deeper steps—see each file’s **Step 1 — Account state** and **[fuzzy-intent-and-account-onboarding.md](./fuzzy-intent-and-account-onboarding.md)** when needed.
+
+Each intent **Plan** adds intent-specific detail; the table below is the default pipeline summary.
 
 | § | Task / theme | Default pipeline (summary) |
 |---|----------------|---------------------------|

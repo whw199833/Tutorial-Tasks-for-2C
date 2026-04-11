@@ -1,14 +1,5 @@
 # Account and Asset Management
 
-## Overview
-
-| API | Function | Use Case |
-|-----|----------|----------|
-| Wallet balances | `getUserAsset`, wallet summary | Spot and funding snapshot |
-| Ledger trace | Deposit / withdraw / universal transfer history | Reconcile “where did funds go” |
-| Sub-account | List, assets, `universalTransfer` | Master–sub scope and moves |
-| Fiat rails | Fiat SAPI orders + public BAPI capabilities | Fiat channels and account orders |
-
 ## Description
 
 **Task summary**: Help users query main- and sub-account assets, reconcile balances and distribution, track deposit/withdrawal/transfer status, and support sub-account–related questions and operational guidance.
@@ -17,20 +8,19 @@
 
 **Skill boundaries**: Assets and transfers → **`assets`**; sub-accounts → **`sub-account`**; fiat rails → **`fiat`** as secondary. If the user also asks about contracts or unified margin, bridge to derivative skills in **[trading-execution.md](./trading-execution.md)**.
 
----
-
-## Recommended skill mix
-
-| Role | Skill | Use |
-|------|--------|-----|
-| Primary | `assets` | Balances, deposits/withdrawals, transfers, asset distribution |
-| Primary | `sub-account` | Sub-account list, permissions, master–sub transfer context |
-| Secondary | `fiat` | Fiat deposit/withdraw order reconciliation |
-| Bridge | `derivatives-trading-portfolio-margin` / `derivatives-trading-portfolio-margin-pro` | Only when the user clearly asks for unified / portfolio margin view |
-
----
-
 ## Plan
+
+### Step 1 — Account state (*MANDATORY*, always first)
+
+Before any later step, confirm whether **funds, wallets, and permissions** support what the user wants (e.g. **trading**, **earn**, **transfers**, **fiat**, **sub-account moves**). Start with **`assets.getUserAssets`** and **available** vs locked balances per wallet; add **`spot`** / **`derivatives-trading-usds-futures`** when the issue ties to orders or positions.
+
+- **If state does not support the next action** (empty or wrong wallet, insufficient **available**, margin/earn locks): **Proactively tell the user** what is missing and what to do (deposit, internal transfer, cancel conflicting orders, check app). **Do not** continue as if balances were sufficient. For cold-start / funding paths, use **[fuzzy-intent-and-account-onboarding.md](./fuzzy-intent-and-account-onboarding.md)**.
+
+1. **Account assets**: Call `assets.getUserAssets`; review available and total value per wallet (especially spot `SPOT` and funding `FUNDING`).
+2. **Open positions**: Call `derivatives-trading-usds-futures.getPositions`; check USDS-M positions (side, size, unrealized PnL).
+3. **Recent trades and open orders**: Call `spot.getOrders`; note trading habits (preferred pairs) and any open orders.
+
+> **After Step 1**: If funds are insufficient for the user’s stated goal, **stop and prompt** before deep ledger work; otherwise continue. If underfunded for general onboarding, see **[fuzzy-intent-and-account-onboarding.md](./fuzzy-intent-and-account-onboarding.md)**.
 
 > Aligns with `task-upgrade-advice.md` §1: scope → snapshot → ledger alignment → sub-account/fiat branches → consolidated output.
 
@@ -41,19 +31,6 @@
 - **Cross-task rules**: See the opening of [task-upgrade-advice.md](./task-upgrade-advice.md) for global flow and “ask the user” guidance.
 
 ### A. Structured pipeline (DAG)
-
-**Step 0: Prerequisite state check — *MANDATORY***
-
-> **Goal**: Before concrete steps, understand the user’s current state for safer, personalized guidance.
-> **Core skills**: `assets`, `spot` (for `getOrders`), `derivatives-trading-usds-futures` (for `getPositions`)
-
-1. **Account assets**: Call `assets.getUserAssets`; review available and total value per wallet (especially spot `SPOT` and funding `FUNDING`).
-2. **Open positions**: Call `derivatives-trading-usds-futures.getPositions`; check USDS-M positions (side, size, unrealized PnL).
-3. **Recent trades and open orders**: Call `spot.getOrders`; note trading habits (preferred pairs) and any open orders.
-
-> **After diagnosis**: Adjust downstream steps. If the user already has related exposure, plan around it; if funds are insufficient, see **[fuzzy-intent-and-account-onboarding.md](./fuzzy-intent-and-account-onboarding.md)** for funding guidance.
-
----
 
 | Step | Action |
 |------|--------|
@@ -66,9 +43,9 @@
 
 ### B. Endpoint quick reference
 
-HTTP paths and parameters follow the `assets`, `sub-account`, and `fiat` **SKILL.md** files under `binance-skills-hub/skills/binance/<skill>/`. Base: `https://api.binance.com` (REST needs `X-MBX-APIKEY` plus signed `timestamp`/`signature` unless marked public).
+HTTP paths and parameters follow the **`assets`**, **`sub-account`**, and **`fiat`** skills’ own §B / quick references. Base: `https://api.binance.com` (REST needs `X-MBX-APIKEY` plus signed `timestamp`/`signature` unless marked public).
 
-**Spot snapshot supplement**: If **`binance-cli`** is enabled, the `binance` skill ([`binance` CLI entry](../../../binance/binance/SKILL.md)) can run `binance-cli spot get-account` to **cross-check** REST `assets` / `spot` account views; deposits/withdrawals/transfers remain on **`assets`**.
+**Spot snapshot supplement**: If **`binance-cli`** is enabled, the **`binance`** skill can run `binance-cli spot get-account` to **cross-check** REST **`assets`** / **`spot`** account views; deposits/withdrawals/transfers remain on **`assets`**.
 
 1. **Main-account spot / funding balances**
    - `POST /sapi/v3/asset/getUserAsset`: per-asset balances (optional `asset` filter).
@@ -93,20 +70,3 @@ HTTP paths and parameters follow the `assets`, `sub-account`, and `fiat` **SKILL
    - `GET /sapi/v1/fiat/orders`: fiat order history (`transactionType`, etc.).
    - `GET /sapi/v1/fiat/payments`: fiat payment history.
    - **Public (no key)**: `https://www.binance.com/bapi/fiat/v1/public/fiatpayment/agent/get-capabilities?country={CC}` and same-prefix `get-buy-and-sell-payment-methods`, `get-deposit-and-withdraw-payment-methods`, `get-price` (capabilities/channels/reference price only—not account ledgers).
-
----
-
-## Usage guide
-
-### Structure
-
-- **No skipping steps**: Do not fan out all SAPI calls before main vs sub is clear; sub-account flows only when the conversation is explicit.
-- **Ledgers before guesses**: For “where did my money go,” align deposit/withdraw/transfer timelines before explaining.
-
-### Auth and APIs
-
-- **Auth**: `assets` / `sub-account` / signed fiat SAPI use `BINANCE_API_KEY`, `BINANCE_SECRET_KEY`; signing per each skill’s `references/authentication.md`; `User-Agent` per SKILL (e.g. `binance-wallet/1.1.0 (Skill)`).
-- **REST assets before sub-account**: Main-account balance alone can use `getUserAsset`; call sub-account `list` / `assets` / `universalTransfer` only when email or transfers are in scope.
-- **Public fiat BAPI vs SAPI**: Quotes/channels → `bapi/fiat/.../agent/*`; **account-level** fiat orders → `GET /sapi/v1/fiat/orders`, `/sapi/v1/fiat/payments`.
-- **On-chain / mainnet**: Skills may require user `CONFIRM` before mainnet actions; delegated-operation disclaimers apply.
-- **With [trading-execution.md](./trading-execution.md)**: Post-trade order lookup is not this task; spot orders use `spot` `/api/v3/order`, `/api/v3/openOrders`.

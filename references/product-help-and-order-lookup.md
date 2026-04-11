@@ -1,35 +1,18 @@
 # Product Help and Order Lookup
 
-## Overview
-
-| API | Function | Use Case |
-|-----|----------|----------|
-| Spot / algo | `spot`, algo SAPI | Open orders, historical order, grid-style lookup |
-| Futures | `derivatives-trading-*` REST | USDS-M / COIN-M positions and orders |
-| `binance-cli` | `binance` skill | Optional read-only cross-check |
-| Web3 symbol | `query-token-info` | Verify pair/token exists before lookups |
-
 ## Description
 
 **Task summary**: Product identity (e.g. Clawbot), client access, where to open a feature, grid/order “how to”—**explanatory** intents; skills only when **real order or market lookups** are needed; else official docs and general agent knowledge.
 
 **Typical intents**: Clawbot identity/features; Binance AI iOS access; grid strategy and order status; ETF price impact (overlaps [market-data-and-analysis.md](./market-data-and-analysis.md) partly).
 
----
-
-## Recommended skill mix
-
-| Scenario | Skill | Use |
-|----------|--------|-----|
-| Check if order exists | `spot` / `algo` / relevant `derivatives-trading-*` | One skill per market |
-| Same (**CLI**) | `binance` | `binance-cli spot` / `futures-usds` vs REST ([trading-execution.md](./trading-execution.md) §C) |
-| Check if market data exists | `query-token-info` | Pair/data availability |
-| Extension | `skill-creator` | User-built agent skills |
-| Security | `skill-vetter` | Third-party skill review |
-
----
-
 ## Plan
+
+### Step 1 — Account state (*MANDATORY*, always first)
+
+Whenever the user ties help to **“my account / my balance / can I afford / why order failed”**, check **`assets`** (available balances) and relevant **`spot`** / **`derivatives-trading-*`** **before** deep order lookup.
+
+- **If their state cannot support what they want** (e.g. no balance for margin, wrong account): **Proactively explain** and suggest deposit / transfer / correct market—**do not** only debug APIs in silence. Use **[fuzzy-intent-and-account-onboarding.md](./fuzzy-intent-and-account-onboarding.md)** when they need funding guidance.
 
 > Aligns with `task-upgrade-advice.md` §7: **FAQ before APIs**; only “my order/grid” → read-order flow; confirm spot/futures/algo first.
 
@@ -40,10 +23,6 @@
 - **Cross-task rules**: [task-upgrade-advice.md](./task-upgrade-advice.md).
 
 ### A. Structured pipeline (DAG)
-
-**Step 0: Prerequisite state check — *MANDATORY*** when user ties help to account state.
-
----
 
 | Step | Action |
 |------|--------|
@@ -64,12 +43,3 @@
 ### C. `binance-cli` (optional)
 
 Read-only cross-check: `binance-cli spot get-open-orders`, `get-order`; `binance-cli futures-usds current-all-open-orders`, `query-order`. COIN-M, algo without CLI → §B REST.
-
----
-
-## Usage guide
-
-- **Default zero calls**: one-sentence product answers need no API.
-- **Unknown market → no blind `openOrders`**.
-- **Lookup and trade same skill**: spot orders only `spot` `/api/v3/*`, not `convert` for spot limits.
-- **With [trading-execution.md](./trading-execution.md)**: grid/TP-SL status via `openOrders`, `allOrders`, `algo/*/openOrders` for that market.

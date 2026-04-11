@@ -1,35 +1,20 @@
 # Education and Learning
 
-## Overview
-
-| API | Function | Use Case |
-|-----|----------|----------|
-| Concepts | Agent explanation | Study plans, glossary, structure (often zero API) |
-| Demo data | `query-token-info`, `crypto-market-rank` | Live examples when user asks |
-| Packaging | `skill-creator` | Turn material into reusable agent skills |
-
 ## Description
 
 **Task summary**: Study plans, reading lists, term definitions, investing literacy, language learning—**explain and structure** first; optional market skills as **teaching examples**, not mandatory.
 
 **Typical intents**: Equity/research study plans; trading glossary; language learning and expression analysis.
 
----
-
-## Recommended skill mix
-
-| Scenario | Skill | Use |
-|----------|--------|-----|
-| Demo | `query-token-info` | Real klines/volume to explain concepts |
-| Demo | `crypto-market-rank` | Rankings, heat, volatility |
-| Extension | `skill-creator` | User wants reusable agent skill from material |
-| General | — | Terms and general knowledge—no skill |
-
-**binance-skills-hub**: demos in **`skills/binance-web3/query-token-info`** etc.; `skill-creator` **not** in hub (see parent [SKILL.md](../SKILL.md) / repo README).
-
----
+**Hub**: demos can use Web3 skills by **`name`** (e.g. **`query-token-info`**, **`crypto-market-rank`**); **`skill-creator`** is not in the hub (see this package [SKILL.md](../SKILL.md) for routing scope).
 
 ## Plan
+
+### Step 1 — Account state (*MANDATORY*, always first)
+
+If the learner asks **“with my money / how much can I buy / real account sizing”**, run **`assets`** (and execution checks per [trading-execution.md](./trading-execution.md)) **before** worked examples with numbers.
+
+- **If their balance cannot support the example size**: **Proactively say so** and switch to **hypothetical** numbers or ask them to fund first—**do not** teach as if they had that cash. Use **[fuzzy-intent-and-account-onboarding.md](./fuzzy-intent-and-account-onboarding.md)** when they need funding basics.
 
 > Aligns with `task-upgrade-advice.md` §11: **concepts first** → if user wants examples: **search → dynamic → klines**; ranking lesson one `unified/rank`; reusable tutorial → `skill-creator`.
 
@@ -51,15 +36,7 @@
 ### B. Endpoint quick reference
 
 1. **Terms**: zero API.
-2. **Optional single token**: `search/ai`, `dynamic/info` per `query-token-info` SKILL.
+2. **Optional single token**: `search/ai`, `dynamic/info` per **`query-token-info`** skill.
 3. **Optional rank**: `POST .../unified/rank/list/ai`.
-4. **Optional klines**: `GET https://dquery.sintral.io/u-kline/v1/k-line/candles` per SKILL.
+4. **Optional klines**: `GET https://dquery.sintral.io/u-kline/v1/k-line/candles` per **`query-token-info`** skill.
 5. **Skill packaging**: Cursor `skill-creator`—not Binance HTTP.
-
----
-
-## Usage guide
-
-- **API only when asked for examples**—reduce cognitive load otherwise.
-- **Demo order**: explain fields before klines.
-- **Neutral**: API fields are not “must go up / must buy”.

@@ -1,37 +1,20 @@
 # On-chain Signals and Security
 
-## Overview
-
-| API | Function | Use Case |
-|-----|----------|----------|
-| Token audit | `query-token-audit` | Contract risk before relying on signals |
-| Smart money | `trading-signal` | Buy/sell signal lists and filters |
-| Address holdings | `query-address-info` | Wallet positions; monitor-style polling |
-| Token / meme context | `query-token-info`, `meme-rush` | Price context and meme lane |
-
 ## Description
 
 **Task summary**: BSC-style transfer patterns, smart-money signals, token security audit, address holdings; and **data/signal parts** of monitoring/alert intents (long-running scripts still depend on user env and cron/serverless).
 
 **Typical intents**: BSC transfer lookup; smart-money monitoring/alerts; scheduled monitoring/push; buy-signal notifications; token audit; smart-money + token analysis.
 
----
-
-## Recommended skill mix
-
-| Role | Skill | Use |
-|------|--------|-----|
-| Primary | `trading-signal` | Smart-money buy/sell signals |
-| Primary | `query-token-audit` | Honeypot/rug-style risk |
-| Primary | `query-address-info` | On-chain address assets/holdings |
-| Secondary | `query-token-info` | Token context and price |
-| Secondary | `meme-rush` | Meme lane heat |
-
-**binance-skills-hub**: all under **`skills/binance-web3/<skill>/SKILL.md`**; exchange order placement not in this task.
-
----
+**Hub**: Web3 skills by **`name`** (e.g. `query-token-audit`, `trading-signal`, `query-address-info`, `query-token-info`, `meme-rush`); exchange order placement is not this task.
 
 ## Plan
+
+### Step 1 — Account state (*MANDATORY*, always first)
+
+Whenever the user might **trade on the exchange**, **size a position**, or tie signals to **“what I can do with my account”**, check **`assets`** (available balances) and relevant **`spot`** / **`derivatives-trading-usds-futures`** **before** audit/signal depth.
+
+- **If the account cannot support trading they imply** (no funds, wrong wallet): **Proactively tell them** before signal shopping; point to [trading-execution.md](./trading-execution.md) / **[fuzzy-intent-and-account-onboarding.md](./fuzzy-intent-and-account-onboarding.md)**. Pure on-chain read with **no** CEX execution angle → Step 1 can be a **quick** `assets` sanity check or skip if clearly irrelevant—still **prompt** if they later ask to trade.
 
 > Aligns with `task-upgrade-advice.md` §5: **contract → audit first**; then signals; `dynamic` liquidity on signal tokens; address paging; meme may align narrative.
 
@@ -42,10 +25,6 @@
 - **Cross-task rules**: [task-upgrade-advice.md](./task-upgrade-advice.md).
 
 ### A. Structured pipeline (DAG)
-
-**Step 0: Prerequisite state check — *MANDATORY*** — `assets`, `spot`, `derivatives-trading-usds-futures` when tying to account/execution; else optional for pure on-chain read.
-
----
 
 | Step | Action |
 |------|--------|
@@ -61,7 +40,7 @@
 2. **`trading-signal`**: `POST .../smart-money/ai` — `chainId`, `page`, `pageSize`.
 3. **`query-address-info`**: `GET .../address/pnl/active-position-list/ai` — `address`, `chainId`, `offset`.
 4. **`query-token-info`**: search/dynamic per [market-data-and-analysis.md](./market-data-and-analysis.md) for signal token context.
-5. **`meme-rush`**: rank endpoints per SKILL.
+5. **`meme-rush`**: rank endpoints per **`meme-rush`** skill.
 6. **Monitoring**: all **pull** REST; scheduled push = user cron/serverless polling—no WebSocket hosting in skill.
 
 ### C. Default scheduling (Python / Shell)
@@ -74,13 +53,3 @@
 | **Python** | Poll/threshold | `requests`/`httpx` loop or APScheduler; alerts (DingTalk/TG/mail) user-defined. |
 
 Do **not** hardcode API keys; use env/secrets. Use the same endpoint URLs in your own script templates.
-
----
-
-## Usage guide
-
-- **Audit ≠ tradable**: pass is technical scan only, not returns or endorsement.
-- **Signals + liquidity**: do not over-read smart-money direction on illiquid tokens.
-- **Chain IDs**: BSC `56`, Base `8453`, Solana `CT_501`, Ethereum `1` (audit).
-- **With [market-data-and-analysis.md](./market-data-and-analysis.md)**: unified/social for breadth; this task for address/signal depth.
-- **Privacy**: redact wallet addresses/holdings when showing users if needed.

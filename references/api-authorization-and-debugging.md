@@ -1,14 +1,5 @@
 # API Authorization and Debugging
 
-## Overview
-
-| API | Function | Use Case |
-|-----|----------|----------|
-| Key & account status | `apiRestrictions`, `apiTradingStatus`, `account/status` | Permission and trading-switch truth |
-| Read paths | Spot / USDS-M / COIN-M smoke reads | Isolate which market layer fails |
-| Sub-account + IP | Sub-account list, `ipRestriction` | Sub-key vs IP allowlist alignment |
-| Environment | `healthcheck`, `skill-vetter` | Local hardening vs exchange errors |
-
 ## Description
 
 **Task summary**: For API key setup, delegated trading auth, signature failures, sub-account API and futures order issues—**connectivity and permission** problems—help determine whether the issue is account permissions, key configuration, or client-side calls; within automation limits, pair with balance/position checks.
@@ -17,21 +8,19 @@
 
 **Skill boundaries**: No single skill “generates or fixes” user-local code; `healthcheck` is environment/system hardening; `assets` / derivative skills **verify** whether auth works (read balances/positions/order error semantics). `skill-vetter` reviews third-party skill install risk—different from exchange API debugging.
 
----
-
-## Recommended skill mix
-
-| Role | Skill | Use |
-|------|--------|-----|
-| Verify | `assets` | Confirm API/account reflects balance/permission-related state |
-| Verify | `derivatives-trading-usds-futures` / `derivatives-trading-coin-futures` | Positions, order errors, futures capability checks |
-| Verify | `sub-account` | Sub-account API vs sub-account structure |
-| Environment | `healthcheck` | Local/runtime security baseline (not trading logic) |
-| Extension | `skill-vetter` | Pre-install review of non-official skills |
-
----
-
 ## Plan
+
+### Step 1 — Account state (*MANDATORY*, always first)
+
+Even for “auth / signature” issues, **first** confirm whether the account **could** support the user’s intended action once keys work (**trade**, **earn**, **futures**, etc.): **`assets.getUserAssets`** (available balances); add **`spot`** / **`derivatives-trading-usds-futures`** when they care about orders or positions.
+
+- **If balances clearly cannot support trading or the stated goal** while debugging keys: **say so up front** (e.g. “even with a fixed key, available balance is zero for this market”) and point to deposit / transfer / **[fuzzy-intent-and-account-onboarding.md](./fuzzy-intent-and-account-onboarding.md)**—**do not** imply fixing the signature alone will make the strategy executable.
+
+1. **Account assets**: `assets.getUserAssets` across wallets (especially `SPOT`, `FUNDING`).
+2. **Open positions**: `derivatives-trading-usds-futures.getPositions` for USDS-M.
+3. **Recent activity**: `spot.getOrders` for habits and open orders.
+
+> **After Step 1**: If underfunded for the user’s goal, **prompt before** deep error classification; else continue.
 
 > Aligns with `task-upgrade-advice.md` §2: classify error → permission truth → per-market read path → sub-account/IP → signing environment → supply-chain tools.
 
@@ -42,19 +31,6 @@
 - **Cross-task rules**: See [task-upgrade-advice.md](./task-upgrade-advice.md) opening.
 
 ### A. Structured pipeline (DAG)
-
-**Step 0: Prerequisite state check — *MANDATORY***
-
-> **Goal**: Before concrete steps, understand the user’s full state for safer guidance.
-> **Core skills**: `assets`, `spot` (for `getOrders`), `derivatives-trading-usds-futures` (for `getPositions`)
-
-1. **Account assets**: `assets.getUserAssets` across wallets (especially `SPOT`, `FUNDING`).
-2. **Open positions**: `derivatives-trading-usds-futures.getPositions` for USDS-M.
-3. **Recent activity**: `spot.getOrders` for habits and open orders.
-
-> **After diagnosis**: Adjust next steps; if underfunded, see **[fuzzy-intent-and-account-onboarding.md](./fuzzy-intent-and-account-onboarding.md)**.
-
----
 
 | Step | Action |
 |------|--------|
@@ -82,30 +58,14 @@
    - `GET /dapi/v1/account`, `GET /dapi/v1/balance`.
 
 5. **Sub-account + IP (`sub-account`)**
-   - `GET /sapi/v1/sub-account/list`; `GET /sapi/v2/sub-account/subAccountApi/ipRestriction` with `email` + `subAccountApiKey`; POST/DELETE IP list per SKILL.
+   - `GET /sapi/v1/sub-account/list`; `GET /sapi/v2/sub-account/subAccountApi/ipRestriction` with `email` + `subAccountApiKey`; POST/DELETE IP list per **`sub-account`** skill docs.
 
-6. **`healthcheck` / `skill-vetter`**: per each SKILL (not expanded as REST here); complements HTTP error troubleshooting.
+6. **`healthcheck` / `skill-vetter`**: follow each skill’s own notes (not expanded as REST here); complements HTTP error troubleshooting.
 
 ### C. `binance-cli` auth and environment (`binance` skill)
 
-If the user uses **`binance-cli`** ([`binance` CLI entry](../../../binance/binance/SKILL.md)), auth and profiles follow **[`references/auth.md`](../../../binance/binance/references/auth.md)**:
+If the user uses **`binance-cli`**, the **`binance`** skill documents auth and profiles (keys, profiles, testnet/demo flags—see that skill’s material, not repeated here):
 
 - **Env**: `BINANCE_API_KEY`, `BINANCE_API_SECRET`; optional `BINANCE_API_ENV` (`prod` | `testnet` | `demo`).
 - **Profile**: `binance-cli profile create`, `change`, `view`; `--profile <name>` on commands.
 - **Security**: Do not log secrets; prefer read-only first (e.g. `binance-cli spot get-account`) before writes.
-
----
-
-## Usage guide
-
-### Structure
-
-- **One failure layer at a time**: e.g. if `dapi` works but `fapi` does not → futures permission or URL, not spot signature first.
-- **Troubleshoot without orders**: default read-only verification; test orders only as last resort.
-
-### Errors and APIs
-
-- **Error semantics**: e.g. `-2015` per official docs; `-1022` → HMAC, param order, `recvWindow`, time sync.
-- **P2P SAPI signing**: for `/sapi/v1/c2c/...`, **do not sort** parameters (see `p2p` SKILL).
-- **Read-first**: avoid `POST` orders in triage; use `spot` `POST /api/v3/order/test`, `/fapi/v1/order/test` when needed.
-- **With [account-and-asset-management.md](./account-and-asset-management.md) / [trading-execution.md](./trading-execution.md)**: after permissions OK, assets → former; trading → latter.

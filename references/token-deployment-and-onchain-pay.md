@@ -1,35 +1,20 @@
 # Token Deployment and On-chain Pay
 
-## Overview
-
-| API | Function | Use Case |
-|-----|----------|----------|
-| Onchain Pay | `onchain-pay-open-api` | Pairs → quote → pre-order → order to address |
-| Post-deploy | `query-token-info`, `query-token-audit` | Search contract + risk check |
-| Deployer wallet | `query-address-info` | Holdings / PnL context |
-
 ## Description
 
 **Task summary**: Create/launch/deploy tokens on BNB Chain etc. and social link integration. Binance skills focus on **trading, assets, market data, audit**—**no full contract IDE or one-click deploy**; use skills for **pay flows**, token info, and security checks.
 
 **Typical intents**: BNB Chain token create/launch; delegated deploy and naming; integrate social links.
 
----
-
-## Recommended skill mix
-
-| Role | Skill | Use |
-|------|--------|-----|
-| Pay / buy | `onchain-pay-open-api` | Fiat-to-crypto or send to on-chain address when flow applies |
-| Info | `query-token-info` | Reference for existing tokens |
-| Security | `query-token-audit` | Pre/post deploy risk awareness |
-| Address | `query-address-info` | Deployer wallet holdings |
-
-**binance-skills-hub**: `onchain-pay-open-api` → **`skills/binance/onchain-pay/SKILL.md`** (`name` field); other Web3 → **`skills/binance-web3/`**.
-
----
+**Hub**: on-chain pay API → skill **`name`** **`onchain-pay`**; other steps use Web3 **`name`s** (`query-token-info`, `query-token-audit`, `query-address-info`, …).
 
 ## Plan
+
+### Step 1 — Account state (*MANDATORY*, always first)
+
+Before **on-chain pay** or any step that spends exchange balance, confirm **`assets`** (and funding/spot availability) **can cover** the intended fiat/crypto amount and fees.
+
+- **If balance cannot support pay or subscribe flows**: **Proactively tell the user** (shortfall, wrong wallet, need transfer) **before** `estimated-quote` / `pre-order` / `order`; do not assume success. Use **[fuzzy-intent-and-account-onboarding.md](./fuzzy-intent-and-account-onboarding.md)** for top-up / transfer guidance.
 
 > Aligns with `task-upgrade-advice.md` §8: no one-click deploy REST; pay **pairs → payment → quote → address/network → pre-order → poll**; post-deploy **search + audit + address holdings**.
 
@@ -41,10 +26,6 @@
 
 ### A. Structured pipeline (DAG)
 
-**Step 0: Prerequisite state check — *MANDATORY*** when user ties to balances or trading.
-
----
-
 | Step | Action |
 |------|--------|
 | **Need** | Fiat buy to address vs send existing crypto → `pre-order` `customization` (e.g. `SEND_PRIMARY`). |
@@ -55,16 +36,8 @@
 
 ### B. Endpoint quick reference
 
-1. **Onchain Pay** (`onchain-pay-open-api`, RSA signing—see `scripts/sign_and_call.sh`): `trading-pairs`, `payment-method-list`, `estimated-quote`, `pre-order`, `order`, `crypto-network` per SKILL (`papi/v1` or `v2` paths).
+1. **Onchain Pay** (`onchain-pay-open-api`, RSA signing—handled in **`onchain-pay`** skill material): `trading-pairs`, `payment-method-list`, `estimated-quote`, `pre-order`, `order`, `crypto-network` per **`onchain-pay`** (`papi/v1` or `v2` paths).
 2. **Post-deploy token**: `query-token-info` `search/ai` by contract address.
 3. **Audit**: `POST .../security/token/audit`.
 4. **Deployer holdings**: `GET .../address/pnl/active-position-list/ai`.
 5. **Contract author/deploy**: no dedicated Binance REST; Remix/Hardhat off-platform.
-
----
-
-## Usage guide
-
-- **Deploy vs Pay**: compile/deploy not in this API set; Pay moves funds to on-chain addresses.
-- **Credentials**: `BASE_URL`, `CLIENT_ID`, `API_KEY`, RSA PEM; `pre-order` usually needs `address` + `network`.
-- **With [onchain-signals-and-security.md](./onchain-signals-and-security.md)**: new tokens—ongoing `query-token-audit` + `query-token-info`.
